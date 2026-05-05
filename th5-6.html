@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz CEJM — Thèmes 5 & 6 — BTS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #f4ede0;
+    --bg-paper: #fbf6ec;
+    --ink: #1a2238;
+    --ink-soft: #4a5468;
+    --accent: #c84b31;
+    --accent-2: #d4a017;
+    --good: #2d6a4f;
+    --bad: #9b2226;
+    --line: #1a2238;
+    --shadow: 4px 4px 0 var(--ink);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Manrope', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(200, 75, 49, 0.04) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(212, 160, 23, 0.05) 0%, transparent 40%);
+}
+.container { max-width: 980px; margin: 0 auto; padding: 40px 24px 80px; }
+
+/* ================ HEADER ================ */
+header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 28px;
+    margin-bottom: 36px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+}
+.eyebrow {
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 144;
+}
+h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+}
+.subtitle {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-top: 12px;
+    max-width: 520px;
+}
+.badge {
+    background: var(--ink);
+    color: var(--bg-paper);
+    font-family: 'Fraunces', serif;
+    font-size: 13px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+/* ================ DASHBOARD ================ */
+.dashboard {
+    background: var(--bg-paper);
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 24px;
+    align-items: center;
+}
+.progress-block .label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background: rgba(26, 34, 56, 0.1);
+    border: 1px solid var(--ink);
+    overflow: hidden;
+    position: relative;
+}
+.progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.4s ease;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 6px, rgba(0,0,0,0.08) 6px, rgba(0,0,0,0.08) 12px);
+}
+.progress-text {
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 500;
+}
+.stat {
+    text-align: center;
+    border-left: 1px solid rgba(26, 34, 56, 0.2);
+    padding-left: 24px;
+}
+.stat .label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+}
+.stat .value {
+    font-family: 'Fraunces', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-top: 4px;
+    font-variation-settings: "opsz" 144;
+}
+.stat.score .value { color: var(--good); }
+.stat.errors .value { color: var(--bad); }
+
+/* ================ FILTRES ================ */
+.filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.filter-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+    margin-right: 8px;
+}
+.filter-btn {
+    background: var(--bg-paper);
+    border: 1.5px solid var(--ink);
+    padding: 8px 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--ink);
+}
+.filter-btn:hover { background: var(--ink); color: var(--bg-paper); }
+.filter-btn.active {
+    background: var(--ink);
+    color: var(--bg-paper);
+    box-shadow: 2px 2px 0 var(--accent);
+}
+.reset-btn {
+    margin-left: auto;
+    background: transparent;
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
+    padding: 8px 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+.reset-btn:hover { background: var(--accent); color: var(--bg-paper); }
+
+/* ================ THEME HEADER ================ */
+.theme-header {
+    margin: 48px 0 24px;
+    padding: 16px 0;
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+}
+.theme-header:first-of-type { margin-top: 0; }
+.theme-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+.theme-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.7rem;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-top: 4px;
+    font-variation-settings: "opsz" 144;
+}
+
+/* ================ QUESTION CARD ================ */
+.question {
+    background: var(--bg-paper);
+    border: 1.5px solid var(--ink);
+    padding: 28px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s, transform 0.3s;
+    position: relative;
+}
+.question.answered { box-shadow: 3px 3px 0 var(--ink); }
+.question.correct {
+    border-color: var(--good);
+    box-shadow: 3px 3px 0 var(--good);
+}
+.question.incorrect {
+    border-color: var(--bad);
+    box-shadow: 3px 3px 0 var(--bad);
+}
+.q-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+}
+.q-num {
+    background: var(--ink);
+    color: var(--bg-paper);
+    padding: 4px 10px;
+    border-radius: 2px;
+}
+.q-tag {
+    color: var(--accent);
+    font-weight: 600;
+}
+.q-text {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    color: var(--ink);
+    font-variation-settings: "opsz" 24;
+}
+.options { display: grid; gap: 10px; }
+.option {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 1px solid rgba(26, 34, 56, 0.3);
+    background: var(--bg);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+    font-family: 'Manrope', sans-serif;
+    color: var(--ink);
+    width: 100%;
+}
+.option:hover:not(:disabled) {
+    border-color: var(--ink);
+    background: var(--bg-paper);
+    transform: translateX(2px);
+}
+.option:disabled { cursor: default; }
+.option-letter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    background: var(--ink);
+    color: var(--bg-paper);
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 13px;
+    flex-shrink: 0;
+    border-radius: 50%;
+}
+.option.correct {
+    background: rgba(45, 106, 79, 0.12);
+    border-color: var(--good);
+    border-width: 2px;
+}
+.option.correct .option-letter { background: var(--good); }
+.option.incorrect {
+    background: rgba(155, 34, 38, 0.1);
+    border-color: var(--bad);
+    border-width: 2px;
+}
+.option.incorrect .option-letter { background: var(--bad); }
+.option-text { flex: 1; padding-top: 2px; }
+
+/* ================ EXPLICATION ================ */
+.explanation {
+    margin-top: 18px;
+    padding: 16px 18px;
+    background: var(--bg);
+    border-left: 3px solid var(--accent-2);
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    display: none;
+    animation: slideIn 0.3s ease;
+}
+.question.answered .explanation { display: block; }
+.explanation strong {
+    font-family: 'Fraunces', serif;
+    color: var(--ink);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================ FOOTER FINAL ================ */
+.final-message {
+    text-align: center;
+    margin-top: 60px;
+    padding: 40px 24px;
+    background: var(--ink);
+    color: var(--bg-paper);
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow);
+    display: none;
+}
+.final-message.show { display: block; }
+.final-message h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    font-variation-settings: "opsz" 144;
+}
+.final-message p { font-size: 16px; opacity: 0.85; }
+.final-message .accent { color: var(--accent-2); font-weight: 600; }
+
+/* ================ RESPONSIVE ================ */
+@media (max-width: 720px) {
+    header { grid-template-columns: 1fr; }
+    .dashboard { grid-template-columns: 1fr; gap: 16px; }
+    .stat { border-left: none; border-top: 1px solid rgba(26, 34, 56, 0.2); padding-left: 0; padding-top: 16px; }
+    .filters { flex-direction: column; align-items: stretch; }
+    .reset-btn { margin-left: 0; margin-top: 8px; }
+    .question { padding: 20px; }
+    .q-text { font-size: 1.05rem; }
+    .container { padding: 24px 16px 60px; }
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    margin-bottom: 24px;
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: all 0.2s ease;
+}
+.back-link:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    transform: translateX(-2px);
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<a class="back-link" href="index.html">← Retour à l'accueil</a>
+
+
+<header>
+    <div>
+        <div class="eyebrow">Culture Économique, Juridique & Managériale</div>
+        <h1>Quiz <em>CEJM</em></h1>
+        <p class="subtitle">100 questions QCM — Thèmes 5 & 6 du référentiel BTS — Niveau Bac+2</p>
+    </div>
+    <div class="badge">Session BTS · 100 QCM</div>
+</header>
+
+<div class="dashboard">
+    <div class="progress-block">
+        <div class="label">Progression</div>
+        <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+        <div class="progress-text"><span id="answered">0</span> / <span id="total">100</span> questions répondues</div>
+    </div>
+    <div class="stat score">
+        <div class="label">Bonnes réponses</div>
+        <div class="value" id="correct-count">0</div>
+    </div>
+    <div class="stat errors">
+        <div class="label">Erreurs</div>
+        <div class="value" id="incorrect-count">0</div>
+    </div>
+</div>
+
+<div class="filters">
+    <span class="filter-label">Filtrer :</span>
+    <button class="filter-btn active" data-filter="all">Toutes (100)</button>
+    <button class="filter-btn" data-filter="5">Thème 5 (50)</button>
+    <button class="filter-btn" data-filter="6">Thème 6 (50)</button>
+    <button class="reset-btn" id="reset">↺ Réinitialiser</button>
+</div>
+
+<div id="quiz-container"></div>
+
+<div class="final-message" id="final">
+    <h2>Quiz terminé</h2>
+    <p>Score final : <span class="accent" id="final-score">—</span></p>
+    <p style="margin-top: 8px;" id="final-comment"></p>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {theme:5, tag:"Marché du travail", q:"Sur le marché du travail, l'offre de travail provient :", options:["Des entreprises qui cherchent à embaucher", "Des actifs qui proposent leur force de travail", "De l'État via les services publics", "Des syndicats représentant les salariés"], answer:1, explanation:"Sur le marché du travail, l'offre vient des actifs (ménages) qui proposent leur travail ; la demande vient des entreprises qui cherchent à embaucher."},
+  {theme:5, tag:"Population active", q:"La population active désigne :", options:["L'ensemble des personnes en âge de travailler", "Uniquement les personnes ayant un emploi salarié", "Les actifs occupés et les chômeurs au sens du BIT", "Tous les Français âgés de 18 à 65 ans"], answer:2, explanation:"La population active = actifs occupés + chômeurs (au sens du BIT). Elle exclut les inactifs (retraités, étudiants, foyer)."},
+  {theme:5, tag:"Taux de chômage", q:"Le taux de chômage se calcule en rapportant :", options:["Les chômeurs à la population totale", "Les demandeurs d'emploi à la population en âge de travailler", "Les inactifs aux actifs occupés", "Les chômeurs à la population active"], answer:3, explanation:"Taux de chômage = chômeurs / population active × 100. Indicateur clé du marché du travail."},
+  {theme:5, tag:"Définition BIT", q:"Selon le Bureau International du Travail (BIT), un chômeur est une personne qui :", options:["N'a pas travaillé une heure dans la semaine et est inscrite à France Travail", "Est inscrite à France Travail et touche une allocation", "A perdu son emploi au cours des douze derniers mois", "Est sans emploi, disponible et a recherché activement un emploi"], answer:3, explanation:"Définition BIT : être sans emploi (pas une heure travaillée), disponible pour travailler, et avoir entrepris des démarches de recherche au cours du mois."},
+  {theme:5, tag:"Chômage frictionnel", q:"Le chômage frictionnel correspond :", options:["À un chômage volontaire dû à des salaires jugés trop bas", "À une insuffisance de la demande globale dans l'économie", "À une inadéquation durable entre offre et demande de qualifications", "Au temps nécessaire entre deux emplois sur le marché du travail"], answer:3, explanation:"Le chômage frictionnel correspond à la période de transition entre deux emplois (quelques semaines/mois) ; c'est un chômage incompressible."},
+  {theme:5, tag:"Chômage structurel", q:"Le chômage structurel résulte :", options:["D'un ralentissement temporaire de l'activité économique nationale ou mondiale", "D'une inadéquation entre les qualifications offertes et celles demandées", "D'une grève prolongée des salariés dans les grands secteurs", "D'une décision personnelle des actifs de quitter le marché"], answer:1, explanation:"Le chômage structurel découle de déséquilibres durables : inadéquation des qualifications, mutations sectorielles, rigidités du marché."},
+  {theme:5, tag:"Chômage conjoncturel", q:"Le chômage conjoncturel (ou keynésien) est lié à :", options:["L'évolution démographique de long terme", "Une mauvaise formation initiale des jeunes", "Une insuffisance de la demande globale", "Une mobilité géographique trop faible"], answer:2, explanation:"Pour Keynes, le chômage conjoncturel s'explique par une insuffisance de la demande effective qui freine l'embauche."},
+  {theme:5, tag:"Salaire d'équilibre", q:"Selon l'analyse néoclassique, le salaire d'équilibre est :", options:["Imposé par l'État ou les syndicats", "Le SMIC fixé chaque 1ᵉʳ janvier", "Une moyenne sectorielle négociée", "Le prix qui équilibre offre et demande de travail"], answer:3, explanation:"Pour les néoclassiques, le salaire d'équilibre est le prix du marché qui égalise offre et demande de travail."},
+  {theme:5, tag:"SMIC", q:"Le SMIC (Salaire Minimum Interprofessionnel de Croissance) :", options:["Est fixé librement par chaque entreprise", "Constitue un salaire minimum légal en France", "S'applique uniquement aux contrats à durée indéterminée", "Concerne seulement le secteur public"], answer:1, explanation:"Le SMIC est le salaire minimum horaire légal applicable à tous les salariés du privé en France (revalorisé chaque année)."},
+  {theme:5, tag:"Segmentation", q:"La théorie de la segmentation du marché du travail (Doeringer & Piore) distingue :", options:["Le secteur public et le secteur privé", "Les actifs occupés et les chômeurs", "Un marché primaire stable et un marché secondaire précaire", "Les hommes et les femmes selon leur taux d'activité"], answer:2, explanation:"Doeringer & Piore (1971) distinguent un marché primaire (emplois stables, qualifiés, bien rémunérés) et un marché secondaire (emplois précaires, peu qualifiés)."},
+  {theme:5, tag:"Insiders/outsiders", q:"La théorie des insiders/outsiders (Lindbeck & Snower) explique :", options:["Les phénomènes de discrimination ethnique observés dans le monde du travail", "Pourquoi les salariés en place protègent leur emploi face aux chômeurs", "La différence de salaire et de statut entre cadres dirigeants et non-cadres", "La répartition des actifs entre salariés du privé et indépendants"], answer:1, explanation:"Les insiders (en place) protègent leur emploi grâce aux coûts de rotation, au détriment des outsiders (chômeurs)."},
+  {theme:5, tag:"Politique passive", q:"Une politique passive de l'emploi consiste à :", options:["Favoriser le retour à l'emploi par la formation", "Indemniser les chômeurs sans agir sur leur retour à l'emploi", "Subventionner les embauches en entreprise", "Créer directement des emplois aidés"], answer:1, explanation:"Politique passive = indemnisation du chômage. Politique active = formation, accompagnement, contrats aidés."},
+  {theme:5, tag:"Politique active", q:"Un exemple de politique active de l'emploi est :", options:["Le versement de l'allocation chômage", "La formation professionnelle des demandeurs d'emploi", "La revalorisation des retraites", "Le paiement des arrêts maladie"], answer:1, explanation:"Les politiques actives visent à favoriser le retour à l'emploi : formation, accompagnement (France Travail), aides à l'embauche."},
+  {theme:5, tag:"Flexibilité", q:"La flexibilité quantitative externe consiste à :", options:["Adapter les rémunérations à la performance individuelle", "Modifier la durée du travail des salariés en place", "Faire varier le nombre de salariés selon l'activité (CDD, intérim)", "Faire évoluer les compétences via la formation"], answer:2, explanation:"Flexibilité quantitative externe = ajuster les effectifs (CDD, intérim, sous-traitance). À distinguer de l'interne (modulation), qualitative et salariale."},
+  {theme:5, tag:"Halo du chômage", q:"Le halo autour du chômage désigne :", options:["Les chômeurs de longue durée", "Les jeunes diplômés sans emploi", "Les retraités souhaitant reprendre une activité", "Les personnes inactives proches du marché du travail"], answer:3, explanation:"Le halo du chômage regroupe des inactifs qui souhaiteraient travailler mais ne sont pas comptés au sens du BIT (n'ont pas cherché ou ne sont pas disponibles immédiatement)."},
+  {theme:5, tag:"Sous-emploi", q:"Le sous-emploi concerne notamment :", options:["Les personnes en CDI à temps plein dans le secteur privé marchand", "Les retraités exerçant une activité réduite en complément de leur pension", "Les personnes à temps partiel souhaitant travailler plus", "Les chômeurs au sens du BIT inscrits depuis plus de douze mois consécutifs"], answer:2, explanation:"Le sous-emploi recouvre les temps partiels subis (souhaitant travailler davantage) et les personnes en chômage technique partiel."},
+  {theme:5, tag:"Précarité", q:"La précarité de l'emploi se caractérise par :", options:["Une instabilité et une faible protection des contrats", "Une rémunération supérieure à la moyenne", "Un statut de fonctionnaire titulaire", "Un emploi à durée indéterminée à temps plein"], answer:0, explanation:"La précarité combine plusieurs dimensions : durée limitée du contrat, instabilité, faibles revenus, faible accès aux droits sociaux."},
+  {theme:5, tag:"Sources du droit", q:"Quelle est la source la plus élevée dans la hiérarchie des normes en droit du travail ?", options:["Le contrat de travail", "L'accord d'entreprise", "La Constitution", "La convention collective de branche"], answer:2, explanation:"Hiérarchie : Constitution > traités/UE > lois et règlements > conventions collectives > contrat de travail."},
+  {theme:5, tag:"Principe de faveur", q:"Le principe de faveur signifie traditionnellement que :", options:["Le contrat de travail prime systématiquement sur la loi et les conventions collectives", "Une norme inférieure peut déroger à une norme supérieure si elle est plus favorable au salarié", "L'employeur doit toujours appliquer la norme la moins coûteuse pour l'entreprise", "Les syndicats représentatifs peuvent imposer unilatéralement leur volonté à l'employeur"], answer:1, explanation:"Le principe de faveur permet à une norme de niveau inférieur de déroger à une norme supérieure dès lors qu'elle est plus favorable au salarié."},
+  {theme:5, tag:"Ordonnances Macron", q:"Les ordonnances Macron de 2017 ont notamment :", options:["Aboli le SMIC pour les entreprises de moins de 50 salariés", "Supprimé tous les CDD au profit d'un contrat unique de travail", "Renforcé la place de l'accord d'entreprise par rapport à la branche", "Imposé la semaine de 32 heures dans toutes les entreprises privées"], answer:2, explanation:"Les ordonnances Macron (sept. 2017) ont étendu la primauté de l'accord d'entreprise sur la convention de branche dans plusieurs domaines."},
+  {theme:5, tag:"Salarié", q:"Le critère essentiel qui distingue un salarié d'un travailleur indépendant est :", options:["Le niveau de rémunération", "La durée de travail effectuée", "Le secteur d'activité concerné", "Le lien de subordination juridique"], answer:3, explanation:"C'est le lien de subordination (directives, contrôle, sanction de l'employeur) qui qualifie le contrat de travail, indépendamment de la dénomination donnée par les parties."},
+  {theme:5, tag:"CDI", q:"Le CDI (contrat à durée indéterminée) :", options:["Est strictement réservé aux cadres dirigeants des entreprises de plus de 250 salariés", "Doit obligatoirement être conclu par écrit et signé devant un représentant du CSE", "Ne peut en aucun cas excéder dix-huit mois consécutifs même en cas de renouvellement", "Est la forme normale et générale de la relation de travail"], answer:3, explanation:"Le Code du travail pose le CDI comme forme normale et générale ; il peut être verbal (sauf temps partiel) et n'a pas de durée maximale."},
+  {theme:5, tag:"CDD", q:"Un CDD ne peut légalement être conclu que :", options:["Pour remplacer un salarié absent ou faire face à un accroissement temporaire d'activité", "À chaque fois que l'employeur le souhaite, sans avoir à justifier d'un motif particulier", "Uniquement lorsque le salarié à embaucher est âgé de moins de 26 ans révolus", "Uniquement pour les emplois saisonniers du secteur agricole et de l'agroalimentaire"], answer:0, explanation:"Le CDD est strictement encadré : il ne peut être conclu que pour des cas limitativement énumérés (remplacement, surcroît, saisonnier, contrat d'usage, etc.)."},
+  {theme:5, tag:"Période d'essai", q:"La période d'essai permet :", options:["De former obligatoirement le salarié recruté avant son entrée en poste", "De déroger au SMIC pendant les trois premiers mois de la relation de travail", "De ne pas verser de salaire au salarié pendant cette période de découverte", "À chacune des parties d'évaluer si la relation de travail convient"], answer:3, explanation:"La période d'essai permet à l'employeur d'évaluer les compétences et au salarié de juger si le poste lui convient. Elle peut être rompue librement (avec un délai de prévenance)."},
+  {theme:5, tag:"Non-concurrence", q:"Pour être valable, une clause de non-concurrence doit :", options:["Être limitée dans le temps, l'espace et faire l'objet d'une contrepartie financière", "S'appliquer pendant toute la vie professionnelle du salarié sans contrepartie", "Être imposée à l'ensemble des salariés de l'entreprise sans aucune contrepartie", "Couvrir le monde entier sans aucune limite de durée ni d'espace géographique"], answer:0, explanation:"Conditions cumulatives : intérêt légitime de l'entreprise, limite dans le temps et l'espace, prise en compte des spécificités du poste, et contrepartie financière (Cass. 2002)."},
+  {theme:5, tag:"Convention collective", q:"Une convention collective de branche :", options:["Est négociée entre l'État et les syndicats nationaux", "Concerne uniquement les fonctionnaires", "Adapte le droit du travail aux spécificités d'un secteur d'activité", "Est obligatoire pour les entreprises individuelles"], answer:2, explanation:"Conclue entre organisations d'employeurs et syndicats représentatifs d'un secteur, la convention collective de branche complète et adapte les règles légales au secteur."},
+  {theme:5, tag:"CSE", q:"Le Comité Social et Économique (CSE) est obligatoire dans les entreprises de :", options:["Au moins 11 salariés", "Au moins 50 salariés exclusivement", "Au moins 100 salariés", "Au moins 250 salariés"], answer:0, explanation:"Mise en place d'un CSE obligatoire à partir de 11 salariés. À partir de 50 salariés, ses attributions sont élargies (consultations économiques, expertises)."},
+  {theme:5, tag:"Modification du contrat", q:"L'accord du salarié est obligatoire pour :", options:["Un changement d'horaires de travail sans modification de la durée hebdomadaire", "Un changement du lieu de travail à l'intérieur du même secteur géographique", "Une modification d'un élément essentiel du contrat (rémunération, qualification)", "Une réorganisation de l'agencement des bureaux et des espaces communs partagés"], answer:2, explanation:"Distinction jurisprudentielle : modification du contrat (élément essentiel : rémunération, qualification, durée) → accord requis ; modification des conditions de travail → relève du pouvoir de direction."},
+  {theme:5, tag:"Démission", q:"La démission est :", options:["Un mode de rupture à l'initiative du salarié", "Soumise à l'autorisation de l'employeur", "Possible uniquement après cinq ans d'ancienneté", "Toujours indemnisée par France Travail"], answer:0, explanation:"La démission émane du salarié et doit être claire et non équivoque. Elle n'ouvre pas droit à l'allocation chômage, sauf cas particuliers (démission légitime)."},
+  {theme:5, tag:"Rupture conventionnelle", q:"La rupture conventionnelle :", options:["Est imposée par l'employeur", "Repose sur un accord commun homologué par l'administration", "Est interdite après un an d'ancienneté", "Empêche toute indemnisation chômage"], answer:1, explanation:"Créée en 2008, la rupture conventionnelle suppose un accord salarié/employeur, formalisé par convention et homologué par la DREETS. Le salarié bénéficie d'une indemnité et de l'assurance chômage."},
+  {theme:5, tag:"Licenciement économique", q:"Un licenciement pour motif économique est fondé sur :", options:["Une faute grave du salarié concerné", "Un motif disciplinaire personnel", "Une insuffisance professionnelle individuelle", "Des difficultés économiques ou des mutations technologiques"], answer:3, explanation:"Article L1233-3 du Code du travail : difficultés économiques, mutations technologiques, réorganisation pour sauvegarder la compétitivité, ou cessation d'activité."},
+  {theme:5, tag:"Licenciement personnel", q:"Le licenciement pour motif personnel doit reposer sur :", options:["Une cause réelle et sérieuse", "Une simple décision de l'employeur", "La majorité des votes du CSE", "Une autorisation préalable du juge"], answer:0, explanation:"Tout licenciement (personnel ou économique) doit être justifié par une cause réelle et sérieuse, à défaut le licenciement est jugé sans cause réelle et sérieuse (indemnités)."},
+  {theme:5, tag:"Procédure de licenciement", q:"Avant de licencier, l'employeur doit obligatoirement :", options:["Convoquer le salarié à un entretien préalable", "Obtenir l'accord écrit du conjoint", "Verser un acompte sur l'indemnité", "Saisir préalablement le Conseil de prud'hommes"], answer:0, explanation:"La procédure impose : convocation à entretien préalable (lettre RAR ou remise en main propre), entretien, puis notification motivée par lettre RAR (délais à respecter)."},
+  {theme:5, tag:"Prud'hommes", q:"Le Conseil de prud'hommes est compétent pour :", options:["Les délits pénaux commis par le dirigeant dans le cadre de son mandat social", "Les conflits collectifs entre syndicats et confédérations patronales nationales", "Les litiges individuels entre employeur et salarié relatifs au contrat de travail", "Les litiges commerciaux entre professionnels indépendants relatifs à un contrat"], answer:2, explanation:"Juridiction paritaire (composée de juges employeurs et salariés) compétente pour les litiges individuels nés à l'occasion du contrat de travail."},
+  {theme:5, tag:"Droit de grève", q:"Le droit de grève en France :", options:["Est interdit dans le secteur privé", "Est limité aux fonctionnaires", "Nécessite toujours un préavis de 30 jours", "Est un droit constitutionnel (préambule de 1946)"], answer:3, explanation:"Droit constitutionnel reconnu par le préambule de la Constitution de 1946. La grève suppose : cessation collective et concertée du travail + revendications professionnelles."},
+  {theme:5, tag:"Syndicats", q:"Le rôle principal d'un syndicat est :", options:["De gérer le budget annuel de l'État et le contrôle des dépenses publiques", "De défendre les intérêts collectifs des travailleurs", "De fixer chaque année le SMIC horaire et le SMIC mensuel applicables", "De recruter directement pour le compte des entreprises adhérentes du secteur"], answer:1, explanation:"Les syndicats représentent et défendent les intérêts professionnels collectifs et individuels des salariés (négociation, action en justice, information)."},
+  {theme:5, tag:"Représentativité", q:"Pour être représentatif au niveau de l'entreprise, un syndicat doit notamment :", options:["Avoir plus de 50 % des voix aux élections", "Atteindre 10 % aux élections professionnelles", "Être affilié à une confédération nationale uniquement", "Compter au moins 1 000 adhérents"], answer:1, explanation:"Loi du 20 août 2008 : seuil de 10 % aux élections du CSE, plus six autres critères (indépendance, transparence financière, ancienneté, etc.)."},
+  {theme:5, tag:"Travailleur indépendant", q:"Un travailleur indépendant :", options:["Est nécessairement salarié à temps partiel", "N'est jamais soumis à la TVA", "A obligatoirement un employeur unique", "Exerce son activité sans lien de subordination"], answer:3, explanation:"L'indépendant exerce librement son activité, organise son travail, supporte les risques et n'a pas de lien de subordination juridique. Il est affilié au régime des indépendants."},
+  {theme:5, tag:"Micro-entrepreneur", q:"Le statut de micro-entrepreneur :", options:["Est réservé aux étudiants", "Permet une activité indépendante avec un régime simplifié", "Garantit un salaire minimum mensuel", "Donne automatiquement droit à l'assurance chômage"], answer:1, explanation:"Régime simplifié (anciennement auto-entrepreneur) avec déclaration et calcul des cotisations simplifiés sur le chiffre d'affaires. Il s'agit d'une activité indépendante."},
+  {theme:5, tag:"GPEC", q:"La Gestion Prévisionnelle des Emplois et des Compétences (GPEC) consiste à :", options:["Calculer la masse salariale annuelle", "Planifier les départs en retraite", "Anticiper les besoins en compétences à moyen terme", "Distribuer les primes de fin d'année"], answer:2, explanation:"La GPEC vise à anticiper les évolutions des emplois, des effectifs et des compétences pour réduire l'écart entre besoins et ressources, à moyen terme."},
+  {theme:5, tag:"Maslow", q:"Selon la pyramide d'A. Maslow, les besoins se classent dans l'ordre :", options:["Estime, sécurité, physiologiques, accomplissement, appartenance", "Physiologiques, sécurité, appartenance, estime, accomplissement", "Accomplissement, estime, appartenance, sécurité, physiologiques", "Sécurité, accomplissement, estime, physiologiques, appartenance"], answer:1, explanation:"Maslow (1943) : 1) physiologiques, 2) sécurité, 3) appartenance, 4) estime, 5) accomplissement de soi. Les besoins supérieurs n'apparaissent qu'une fois les inférieurs satisfaits."},
+  {theme:5, tag:"Herzberg", q:"F. Herzberg distingue deux catégories de facteurs :", options:["Facteurs d'hygiène et facteurs de motivation", "Facteurs internes et facteurs externes", "Facteurs économiques et facteurs sociaux", "Facteurs primaires et facteurs secondaires"], answer:0, explanation:"Herzberg (1959) : facteurs d'hygiène (salaire, conditions, sécurité) évitent l'insatisfaction ; facteurs moteurs (responsabilités, reconnaissance, contenu du travail) génèrent la motivation."},
+  {theme:5, tag:"McGregor", q:"La théorie X de D. McGregor postule que :", options:["Le travailleur est naturellement créatif et autonome", "Le salarié recherche les responsabilités", "La participation accroît l'efficacité", "Le salarié est paresseux et doit être contraint"], answer:3, explanation:"Théorie X : vision pessimiste (l'individu fuit le travail, doit être surveillé). Théorie Y : vision optimiste (le travail est naturel, l'individu peut être autonome, créatif)."},
+  {theme:5, tag:"Vroom", q:"Pour V. Vroom, la motivation dépend de trois facteurs :", options:["Effort, résultat et récompense (E × I × V)", "Salaire, prime et avancement", "Hygiène, motivation et accomplissement", "Sécurité, appartenance et estime"], answer:0, explanation:"Théorie des attentes (Vroom, 1964) : Motivation = Expectation × Instrumentalité × Valence. L'individu est motivé si l'effort produit un résultat menant à une récompense valorisée."},
+  {theme:5, tag:"Adams", q:"La théorie de l'équité (J.S. Adams) repose sur :", options:["La hiérarchie des besoins individuels", "La distinction entre facteurs d'hygiène et de motivation", "La comparaison sociale entre salariés (rétributions / contributions)", "Le contrôle strict du travail par la hiérarchie"], answer:2, explanation:"Adams (1965) : un salarié compare son ratio rétribution/contribution à celui d'autres salariés. L'iniquité perçue génère démotivation ou ajustement du comportement."},
+  {theme:5, tag:"RPS", q:"Les Risques Psycho-Sociaux (RPS) en entreprise désignent :", options:["Les troubles musculo-squelettiques exclusivement", "Les risques liés au stress, harcèlement, violences au travail", "Les accidents de la route lors d'un déplacement", "Les maladies professionnelles infectieuses"], answer:1, explanation:"Les RPS regroupent stress chronique, harcèlement moral/sexuel, violences (internes/externes), épuisement professionnel (burn-out)."},
+  {theme:5, tag:"TMS", q:"Les Troubles Musculo-Squelettiques (TMS) sont :", options:["Des pathologies liées aux gestes et postures de travail", "Des maladies psychiques exclusivement", "Des accidents de trajet", "Des troubles uniquement liés au numérique"], answer:0, explanation:"Les TMS atteignent les muscles, tendons et nerfs (membres, dos) ; principale cause de maladies professionnelles reconnues, liées aux gestes répétitifs, postures, manutentions."},
+  {theme:5, tag:"QVCT", q:"La QVCT (Qualité de Vie et des Conditions de Travail) recouvre :", options:["Uniquement la rémunération mensuelle versée aux salariés en fin de mois", "La seule durée légale hebdomadaire de 35 heures fixée par les lois Aubry", "Une démarche globale d'amélioration des conditions de travail et du contenu du travail", "Le seul respect strict des dispositions du Code du travail par l'employeur"], answer:2, explanation:"La QVCT (loi du 2 août 2021, ANI 2020) intègre conditions matérielles, contenu du travail, relations professionnelles, équilibre vie pro/perso, et participation des salariés."},
+  {theme:5, tag:"Télétravail", q:"En droit français, le télétravail :", options:["Est imposé par l'employeur sans accord du salarié", "Repose sur le double volontariat employeur/salarié", "Est interdit pour les CDD", "Doit toujours être à temps plein"], answer:1, explanation:"Le télétravail (art. L1222-9 et s.) repose sur l'accord employeur et salarié ; il peut être mis en place par accord collectif, charte ou simple accord individuel."},
+  {theme:5, tag:"Égalité professionnelle", q:"L'index de l'égalité professionnelle femmes/hommes en entreprise :", options:["Mesure et publie chaque année la situation comparée des entreprises de 50 salariés et plus", "Concerne uniquement les entreprises publiques et les administrations de plus de 250 agents", "Est totalement facultatif et laissé à l'appréciation des dirigeants d'entreprise", "Vise uniquement les cadres dirigeants au comité de direction des grands groupes"], answer:0, explanation:"Index obligatoire (loi de 2018) pour les entreprises ≥ 50 salariés : 5 indicateurs notés sur 100 (écart de rémunération, augmentations, etc.). Score < 75 : actions correctives."},
+  {theme:6, tag:"Stratégie", q:"Selon A.D. Chandler, la stratégie consiste à :", options:["Suivre fidèlement la concurrence en imitant ses choix opérationnels", "Optimiser la production à court terme en réduisant les coûts directs", "Déterminer les buts à long terme et allouer les ressources nécessaires", "Maximiser le bénéfice à court terme au profit des actionnaires de la société"], answer:2, explanation:"A.D. Chandler (1962) : « détermination des buts et objectifs à long terme, choix des actions et allocation des ressources nécessaires pour atteindre ces buts »."},
+  {theme:6, tag:"Démarche stratégique", q:"La démarche stratégique classique comprend :", options:["Diagnostic, choix stratégiques, mise en œuvre, contrôle", "Production, vente, encaissement, comptabilité", "Embauche, formation, évaluation, départ", "Achats, stockage, expédition, retours"], answer:0, explanation:"Étapes : diagnostic (interne et externe) → analyse stratégique → choix stratégiques → déploiement opérationnel → contrôle/ajustement."},
+  {theme:6, tag:"Diagnostic externe", q:"Le diagnostic externe d'une entreprise vise à :", options:["Évaluer ses ressources humaines", "Identifier opportunités et menaces de l'environnement", "Mesurer sa rentabilité financière", "Analyser uniquement ses concurrents"], answer:1, explanation:"Diagnostic externe : analyse du macro-environnement (PESTEL) et du méso-environnement (5 forces, demande), pour repérer opportunités et menaces."},
+  {theme:6, tag:"PESTEL", q:"L'analyse PESTEL recouvre les facteurs :", options:["Politiques, Économiques, Sociaux, Technologiques, Écologiques, Légaux", "Production, Environnement, Stocks, Travail, Étatiques, Logistiques", "Profit, Emploi, Salaires, Technologie, Économie, Loi", "Privé, Étatique, Stratégie, Tactique, Économique, Légal"], answer:0, explanation:"PESTEL : Politique, Économique, Sociologique/Socioculturel, Technologique, Écologique, Légal. Outil d'analyse du macro-environnement de l'entreprise."},
+  {theme:6, tag:"5 forces de Porter", q:"Les cinq forces concurrentielles de M. Porter sont :", options:["Concurrents directs, fournisseurs, clients, État régulateur, organisations syndicales et partenaires sociaux du secteur d'activité", "Concurrents directs, entrants potentiels, produits de substitution, pouvoir des fournisseurs, pouvoir des clients", "Coûts de production, prix de vente, qualité du produit, image de marque et distribution sur le marché", "Investisseurs financiers, salariés, dirigeants, clients fidèles, autorités publiques et concurrents nationaux"], answer:1, explanation:"M. Porter (1979) : intensité concurrentielle, menace d'entrants, menace de substitution, pouvoir de négociation des fournisseurs, pouvoir de négociation des clients."},
+  {theme:6, tag:"6e force", q:"La 6e force parfois ajoutée au modèle de Porter est :", options:["Les actionnaires majoritaires de l'entreprise et leurs représentants au conseil", "Les clients les plus fidèles et les plus rentables sur la durée commerciale", "Les salariés réunis collectivement par l'intermédiaire des syndicats représentatifs", "L'État (pouvoirs publics et régulation)"], answer:3, explanation:"L'État/régulateur est souvent ajouté comme 6e force : il influence l'intensité concurrentielle (subventions, normes, fiscalité, droit de la concurrence)."},
+  {theme:6, tag:"Barrières à l'entrée", q:"Les barrières à l'entrée d'un marché incluent :", options:["Le nombre total de salariés employés par l'entreprise sur ses différents sites", "La couleur dominante du logo et la charte graphique de la marque commerciale", "L'implantation du siège social dans une grande zone urbaine bien desservie", "Les économies d'échelle, les brevets, l'investissement initial élevé"], answer:3, explanation:"Barrières structurelles (économies d'échelle, capitaux, brevets, accès aux distributeurs) ou stratégiques (image de marque, fidélité, prix limite)."},
+  {theme:6, tag:"Groupes stratégiques", q:"Un groupe stratégique regroupe :", options:["Les actionnaires majoritaires d'une entreprise", "Les filiales d'un même groupe industriel", "Les concurrents adoptant des stratégies similaires sur un secteur", "Les clients d'une même zone géographique"], answer:2, explanation:"Carte des groupes stratégiques (M. Porter) : représentation visuelle qui regroupe les concurrents partageant des choix stratégiques similaires (prix, gamme, distribution)."},
+  {theme:6, tag:"FCS", q:"Les Facteurs Clés de Succès (FCS) sont :", options:["Les éléments à maîtriser sur un marché pour réussir face à la concurrence", "Les indicateurs financiers issus du bilan annuel publié par l'entreprise", "Les obligations légales découlant du Code du travail et du Code civil", "Les avantages individuels accordés à chaque salarié dans son contrat"], answer:0, explanation:"Les FCS sont les compétences ou actifs déterminants pour réussir sur un marché donné (qualité, coûts, délais, image, etc.). À identifier puis comparer aux ressources internes."},
+  {theme:6, tag:"Diagnostic interne", q:"Le diagnostic interne consiste à :", options:["Analyser systématiquement les concurrents directs présents sur le marché de l'entreprise", "Étudier l'environnement légal et réglementaire applicable au secteur d'activité concerné", "Évaluer les ressources et compétences de l'entreprise", "Mesurer l'inflation et l'évolution générale des prix dans le secteur d'activité concerné"], answer:2, explanation:"Diagnostic interne : ressources tangibles, intangibles, humaines et financières + compétences/savoir-faire. Permet de repérer forces et faiblesses."},
+  {theme:6, tag:"Ressources tangibles", q:"Les ressources tangibles d'une entreprise sont :", options:["Les marques et brevets déposés", "Les machines, bâtiments, stocks et liquidités", "La culture d'entreprise", "La motivation des employés"], answer:1, explanation:"Ressources tangibles : matérielles (machines, locaux, stocks) et financières (liquidités, capacité d'emprunt). Les intangibles incluent marques, brevets, savoir-faire, image, culture."},
+  {theme:6, tag:"Ressources intangibles", q:"Une ressource intangible d'une entreprise est :", options:["Un stock de matières premières", "Une chaîne de production automatisée", "Un parc immobilier important", "La réputation de la marque"], answer:3, explanation:"Les ressources intangibles (immatérielles) : marque, brevet, savoir-faire, culture, réputation. Souvent plus difficiles à imiter, donc sources d'avantage concurrentiel."},
+  {theme:6, tag:"Compétences", q:"Selon G. Hamel et C.K. Prahalad, les compétences fondamentales :", options:["Sont sans valeur stratégique réelle", "Concernent uniquement les cadres dirigeants", "Procurent un avantage concurrentiel durable", "Doivent être externalisées en priorité"], answer:2, explanation:"Hamel & Prahalad (1990) : les « core competences » sont les compétences fondamentales, valorisables sur plusieurs marchés et difficilement imitables ; elles fondent l'avantage concurrentiel."},
+  {theme:6, tag:"VRIO", q:"Selon Barney, une ressource stratégique doit être :", options:["Visible, Réelle, Identifiable, Officielle", "Variable, Récente, Informelle, Optionnelle", "Vaste, Régulière, Innovante, Obligatoire", "Valorisable, Rare, Inimitable, Organisée (VRIO)"], answer:3, explanation:"J. Barney (1991) : pour conférer un avantage concurrentiel durable, une ressource doit être Valorisable, Rare, difficilement Imitable, et l'entreprise doit pouvoir l'exploiter (Organisée)."},
+  {theme:6, tag:"Chaîne de valeur", q:"La chaîne de valeur (M. Porter) décompose l'entreprise en :", options:["Activités principales et activités de soutien", "Services siège et services régionaux", "Personnel ouvrier et personnel cadre", "Activités productives et improductives"], answer:0, explanation:"M. Porter (1985) : 5 activités principales (logistique entrante, production, logistique sortante, commercialisation, services) + 4 activités de soutien (infrastructure, RH, R&D, achats)."},
+  {theme:6, tag:"Avantage concurrentiel", q:"L'avantage concurrentiel d'une entreprise correspond à :", options:["La taille du siège social et le prestige du quartier d'implantation", "Sa capacité à créer plus de valeur que ses concurrents pour ses clients", "Le nombre de filiales étrangères détenues majoritairement par la maison mère", "Le montant total du chiffre d'affaires consolidé du groupe sur l'année"], answer:1, explanation:"L'avantage concurrentiel est la capacité à proposer une offre supérieure (par les coûts ou par la différenciation) qui génère une préférence du client par rapport aux concurrents."},
+  {theme:6, tag:"SWOT", q:"La matrice SWOT croise :", options:["Coûts de production et bénéfices financiers prévisionnels de l'entreprise", "Salaires versés aux employés et productivité globale des facteurs", "Effectifs salariés et résultats financiers réalisés sur l'exercice", "Forces, Faiblesses (interne) et Opportunités, Menaces (externe)"], answer:3, explanation:"SWOT (Strengths, Weaknesses, Opportunities, Threats) : synthèse du diagnostic interne (S/W) et externe (O/T) pour orienter les choix stratégiques."},
+  {theme:6, tag:"DAS", q:"Un Domaine d'Activité Stratégique (DAS) est :", options:["Une partie de l'entreprise homogène en termes de marché et de ressources mobilisées", "Le département chargé de la gestion des ressources humaines au siège du groupe", "Le bilan financier annuel publié à destination des actionnaires de l'entreprise", "Une filiale étrangère contrôlée majoritairement par la maison mère française"], answer:0, explanation:"Un DAS regroupe des activités présentant des facteurs clés de succès similaires et mobilisant des ressources et compétences communes."},
+  {theme:6, tag:"Segmentation stratégique", q:"La segmentation stratégique consiste à :", options:["Diviser le marché selon les caractéristiques des clients", "Découper l'entreprise en DAS pour analyser chacun séparément", "Classer les salariés par ancienneté", "Trier les fournisseurs par volume"], answer:1, explanation:"Segmentation stratégique = découpage de l'entreprise en DAS (≠ segmentation marketing qui découpe le marché en segments de clients)."},
+  {theme:6, tag:"Matrice BCG", q:"La matrice BCG positionne les DAS selon :", options:["Le taux de croissance du marché et la part de marché relative", "La rentabilité financière et l'effectif salarié", "Le prix et la qualité du produit", "Le chiffre d'affaires et la marge brute"], answer:0, explanation:"Matrice BCG (Boston Consulting Group) : axe vertical = taux de croissance du marché, axe horizontal = part de marché relative. Quatre cases : vedettes, vaches à lait, dilemmes, poids morts."},
+  {theme:6, tag:"Vache à lait", q:"Dans la matrice BCG, une « vache à lait » correspond à :", options:["Un DAS à forte croissance et forte part de marché", "Un DAS à faible croissance et faible part de marché", "Un DAS à forte croissance et faible part de marché", "Un DAS à faible croissance mais forte part de marché"], answer:3, explanation:"Vache à lait : marché mature (faible croissance) où l'entreprise détient une forte part de marché. Génère des liquidités servant à financer d'autres DAS (vedettes, dilemmes)."},
+  {theme:6, tag:"Vedette", q:"Un DAS « vedette » de la matrice BCG :", options:["Doit être abandonné rapidement faute de potentiel commercial sur le marché national", "Génère beaucoup de liquidités sans nécessiter d'investissement supplémentaire en capital", "Connaît une forte croissance et a une forte part de marché relative", "Est un domaine d'activité mature et stable depuis plusieurs années consécutives"], answer:2, explanation:"Vedette : marché en forte croissance + forte part de marché relative. Génère et consomme à la fois beaucoup de liquidités. Tendra à devenir vache à lait."},
+  {theme:6, tag:"Dilemme", q:"Un DAS « dilemme » dans la matrice BCG :", options:["Domine un marché mature et stable depuis plusieurs années", "Génère systématiquement des bénéfices et autofinance ses investissements", "Présente un fort potentiel de marché mais une faible part de marché", "Est une activité totalement abandonnée par les concurrents du secteur"], answer:2, explanation:"Dilemme : marché en forte croissance mais faible part de marché. Choix : investir massivement pour devenir vedette, ou abandonner le DAS."},
+  {theme:6, tag:"Poids mort", q:"Un DAS « poids mort » :", options:["Est en pleine expansion commerciale sur un marché en très forte croissance", "Présente une faible croissance et une faible part de marché", "Domine clairement son marché mature et stable depuis plusieurs années consécutives", "Est devenu progressivement une vedette du portefeuille d'activités stratégiques"], answer:1, explanation:"Poids mort : marché à faible croissance + faible part de marché. Souvent peu rentable : à abandonner ou à recentrer."},
+  {theme:6, tag:"Analyse de la valeur", q:"L'analyse de la valeur d'une activité (chaîne de valeur) cherche à :", options:["Identifier les sources de création de valeur et d'avantage concurrentiel", "Calculer la valeur boursière des actions cotées sur les marchés financiers", "Estimer la valeur immobilière du siège social et des sites de production", "Mesurer la valeur de revente des stocks invendus en fin d'exercice comptable"], answer:0, explanation:"L'analyse de la chaîne de valeur identifie les activités créatrices de valeur (et leur coût), permettant de cibler les sources d'avantage concurrentiel et les axes d'amélioration."},
+  {theme:6, tag:"Domination par les coûts", q:"La stratégie de domination par les coûts (M. Porter) consiste à :", options:["Différencier l'offre par la qualité supérieure", "Cibler une niche de marché restreinte", "Proposer un prix inférieur grâce à des coûts maîtrisés", "Multiplier les gammes de produits"], answer:2, explanation:"Domination par les coûts : devenir le producteur le plus efficace (économies d'échelle, effet d'expérience, productivité) pour proposer le prix le plus bas et capter le marché."},
+  {theme:6, tag:"Différenciation", q:"Une stratégie de différenciation vise à :", options:["Proposer une offre perçue comme unique pour justifier un prix supérieur", "Réduire au strict minimum les coûts de production unitaires des produits", "Imiter strictement les choix stratégiques du leader incontesté du marché", "Sortir progressivement de tous les marchés concurrentiels saturés"], answer:0, explanation:"Différenciation (M. Porter) : créer une offre unique (qualité, image, services, technologie) que le client perçoit comme supérieure et accepte de payer plus cher."},
+  {theme:6, tag:"Focalisation", q:"La stratégie de focalisation (ou concentration) consiste à :", options:["Cibler tous les segments du marché", "Concurrencer le leader frontalement", "Externaliser l'essentiel de la production", "Se concentrer sur un segment de marché restreint"], answer:3, explanation:"Focalisation (M. Porter) : cibler une niche (segment de clientèle, géographique, gamme étroite), avec stratégie de coût ou de différenciation propre à ce segment."},
+  {theme:6, tag:"Spécialisation", q:"Une stratégie de spécialisation consiste à :", options:["Concentrer ses ressources sur un seul métier ou DAS", "Diversifier ses activités sur plusieurs marchés", "Se développer à l'international en priorité", "Externaliser l'ensemble de la production"], answer:0, explanation:"Spécialisation : développer un seul métier/DAS pour maîtriser au maximum compétences et coûts. Avantages : effets d'expérience, image. Risque : exposition à la maturité du secteur."},
+  {theme:6, tag:"Diversification", q:"La diversification d'entreprise désigne :", options:["Le recrutement de profils variés", "La hausse de la production existante", "L'ouverture de nouveaux points de vente", "Le développement sur de nouveaux DAS"], answer:3, explanation:"Diversification (Ansoff) : développer de nouveaux DAS, c'est-à-dire de nouveaux couples produits/marchés. Peut être liée (synergies) ou conglomérale (sans lien)."},
+  {theme:6, tag:"Intégration verticale", q:"Une intégration verticale en amont consiste à :", options:["Vendre directement aux consommateurs finaux", "Acquérir un concurrent direct", "Internaliser les activités de ses fournisseurs", "Diversifier ses gammes de produits"], answer:2, explanation:"Intégration amont : prendre le contrôle des activités fournisseurs (matières premières, composants). Aval : prendre le contrôle des activités clientes/distributeurs."},
+  {theme:6, tag:"Externalisation", q:"L'externalisation (outsourcing) consiste à :", options:["Confier à un prestataire extérieur une activité auparavant réalisée en interne", "Embaucher de nouveaux salariés en CDI pour développer l'activité interne", "Acquérir un concurrent direct implanté à l'étranger pour gagner des parts de marché", "Vendre l'ensemble de l'entreprise à un investisseur financier ou industriel"], answer:0, explanation:"Externalisation : transfert durable d'une activité (souvent secondaire : informatique, paie, logistique) à un prestataire spécialisé pour se recentrer sur le cœur de métier."},
+  {theme:6, tag:"Recentrage", q:"Une stratégie de recentrage stratégique consiste à :", options:["Étendre toutes les activités secondaires de l'entreprise sur de nouveaux marchés", "Multiplier les filiales à l'étranger pour conquérir de nouveaux marchés porteurs", "Augmenter significativement les effectifs salariés sur l'ensemble des sites", "Se désengager d'activités secondaires pour revenir au cœur de métier"], answer:3, explanation:"Recentrage : abandon des DAS périphériques pour concentrer ressources et investissements sur le cœur de métier (core business). Souvent en réponse à une diversification excessive."},
+  {theme:6, tag:"Internationalisation", q:"Une stratégie d'internationalisation peut prendre la forme :", options:["D'une concentration sur le marché local uniquement", "D'exportations, de filiales étrangères ou d'investissements directs", "D'une fermeture des activités existantes", "D'une réduction des effectifs nationaux"], answer:1, explanation:"Internationalisation progressive : exportation indirecte/directe → contrats de licence/franchise → joint-venture → filiales (commerciales puis productives) → IDE."},
+  {theme:6, tag:"Croissance organique", q:"La croissance organique (interne) repose sur :", options:["Le développement par les ressources propres de l'entreprise", "Le rachat systématique des principaux concurrents directs présents sur le marché", "La fusion avec d'autres entreprises pour créer une nouvelle entité juridique commune", "La vente progressive d'actifs stratégiques à des partenaires industriels ou financiers"], answer:0, explanation:"Croissance organique : développement progressif via investissements propres (R&D, capacités, embauches). Plus lente mais maîtrisée et limitant l'endettement."},
+  {theme:6, tag:"Croissance externe", q:"La croissance externe consiste à :", options:["Construire une nouvelle usine de production", "Recruter du personnel qualifié", "Acquérir ou fusionner avec d'autres entreprises", "Lancer un nouveau produit innovant"], answer:2, explanation:"Croissance externe : prise de contrôle d'autres entreprises (acquisition, fusion, OPA, OPE). Permet une croissance rapide mais coûteuse, avec risque d'intégration."},
+  {theme:6, tag:"OPA", q:"Une OPA (Offre Publique d'Achat) consiste à :", options:["Vendre publiquement aux salariés les actions cotées d'une entreprise du CAC 40", "Proposer publiquement aux actionnaires d'une entreprise cotée d'acheter leurs titres", "Augmenter le capital social par appel public à l'épargne sur les marchés financiers", "Distribuer un dividende aux actionnaires en proportion de leurs actions détenues"], answer:1, explanation:"OPA : offre faite publiquement aux actionnaires d'une société cotée pour acheter leurs actions, à un prix donné, en numéraire (vs OPE : en titres de l'acquéreur)."},
+  {theme:6, tag:"Fusion", q:"Une fusion d'entreprises se distingue d'une acquisition par :", options:["Le fait qu'elle soit nécessairement hostile et imposée à l'une des sociétés", "Son caractère illégal en droit français au regard du droit de la concurrence", "L'absence totale de conséquences fiscales et sociales pour les sociétés concernées", "La création d'une nouvelle entité ou l'absorption d'une société par l'autre"], answer:3, explanation:"Fusion : deux sociétés disparaissent au profit d'une nouvelle (fusion-création) ou l'une absorbe l'autre (fusion-absorption). Acquisition : la cible conserve sa personnalité juridique."},
+  {theme:6, tag:"Croissance conjointe", q:"La croissance conjointe (ou stratégie d'alliance) repose sur :", options:["La concurrence frontale avec un partenaire stratégique sur les principaux segments du marché", "La coopération entre entreprises restant juridiquement indépendantes", "L'absorption d'une entreprise concurrente sur le même marché géographique national", "La cession d'un département complet à une autre société du même secteur d'activité"], answer:1, explanation:"Croissance conjointe : alliance, partenariat ou joint-venture entre entreprises qui restent indépendantes mais coopèrent (R&D, production, distribution)."},
+  {theme:6, tag:"Joint-venture", q:"Une joint-venture (entreprise commune) est :", options:["Un service interne créé au sein d'une grande entreprise pour un nouveau projet", "Une succursale étrangère sans personnalité juridique propre, dépendant du siège", "Une filiale créée par deux entreprises associant leurs ressources sur un projet", "Une fusion totale aboutissant à la disparition juridique des deux entreprises"], answer:2, explanation:"Joint-venture : filiale commune créée par deux (ou plusieurs) entreprises pour un projet précis (souvent international), partageant capital, risques et bénéfices."},
+  {theme:6, tag:"Alliance stratégique", q:"Une alliance stratégique :", options:["Implique nécessairement la disparition de l'un des partenaires", "Est un partenariat entre concurrents qui restent indépendants", "Est interdite par le droit de la concurrence", "Concerne uniquement les PME locales"], answer:1, explanation:"Alliance stratégique : accord de coopération entre concurrents (alliance horizontale) qui demeurent juridiquement indépendants (ex. partage R&D, production, distribution)."},
+  {theme:6, tag:"Innovation", q:"L'innovation peut être source d'avantage concurrentiel par :", options:["L'imitation systématique des produits et services lancés par les principaux concurrents", "La copie pure et simple des produits déjà standardisés sur le marché de masse", "La création de nouveaux produits, procédés ou modèles d'affaires", "La diminution générale des dépenses opérationnelles dans tous les services de l'entreprise"], answer:2, explanation:"L'innovation (produit, procédé, organisation, marketing) crée de la valeur et un avantage temporaire, à protéger (brevets, secret) avant l'imitation par les concurrents."},
+  {theme:6, tag:"Océan bleu", q:"La stratégie « océan bleu » (Kim et Mauborgne) consiste à :", options:["Affronter directement le leader du marché", "Imiter les acteurs établis", "Créer un nouvel espace stratégique non concurrencé", "Réduire les coûts uniquement"], answer:2, explanation:"Kim & Mauborgne (2005) : sortir d'un marché saturé (océan rouge) en créant un nouvel espace de marché (océan bleu), combinant innovation-valeur et faibles coûts."},
+  {theme:6, tag:"Mondialisation", q:"La mondialisation se caractérise notamment par :", options:["L'intégration croissante des économies via échanges, IDE et financiarisation", "Le repli protectionniste des États-nations sur leurs frontières économiques", "La fin progressive du commerce international entre les pays développés", "La disparition complète des firmes multinationales sur la scène économique"], answer:0, explanation:"Mondialisation : intensification des échanges de biens, services, capitaux, technologies et personnes ; rôle clé des FMN, des IDE et des chaînes de valeur mondiales."},
+  {theme:6, tag:"FMN", q:"Une Firme Multinationale (FMN) est :", options:["Une entreprise nationale n'exportant aucun produit ou service à l'étranger", "Une PME implantée localement et n'ayant qu'un seul site de production", "Une coopérative régionale rassemblant des producteurs d'un même secteur", "Une entreprise possédant ou contrôlant des unités productives dans plusieurs pays"], answer:3, explanation:"FMN : entreprise dont la production est répartie dans plusieurs pays via des filiales contrôlées (au moins 10 % du capital selon l'OCDE)."},
+  {theme:6, tag:"IDE", q:"Un Investissement Direct à l'Étranger (IDE) consiste à :", options:["Importer des biens d'un autre pays", "Acquérir au moins 10 % du capital d'une entreprise étrangère", "Exporter des services à l'étranger", "Voyager pour des raisons professionnelles"], answer:1, explanation:"IDE : investissement durable visant à créer ou prendre le contrôle d'une entité productive à l'étranger (au moins 10 % du capital, seuil OCDE)."},
+  {theme:6, tag:"Avantage comparatif", q:"Selon D. Ricardo, le commerce international est bénéfique grâce :", options:["Au protectionnisme généralisé pratiqué par les économies développées", "À la fermeture progressive des frontières aux échanges commerciaux", "Aux avantages absolus uniquement, comme l'avait théorisé Adam Smith", "À la spécialisation des pays selon leurs avantages comparatifs"], answer:3, explanation:"D. Ricardo (1817) : un pays a intérêt à se spécialiser dans les productions où il a le plus grand avantage (ou la moindre désavantage) relatif et à échanger."},
+  {theme:6, tag:"Effet d'expérience", q:"L'effet d'expérience désigne :", options:["La hausse mécanique des coûts unitaires avec le temps et l'usure progressive du capital", "La hausse des prix de vente unitaires proportionnellement à la production cumulée du secteur", "La stabilité des coûts unitaires à long terme grâce à la maîtrise du processus productif", "La diminution du coût unitaire avec l'augmentation de la production cumulée"], answer:3, explanation:"Effet d'expérience (BCG) : le coût unitaire d'un produit diminue d'un pourcentage constant à chaque doublement de la production cumulée (apprentissage, économies d'échelle, innovation)."},
+  {theme:6, tag:"Décision stratégique", q:"Une décision stratégique se distingue d'une décision opérationnelle par :", options:["Sa portée à long terme et son impact global sur l'entreprise", "Sa fréquence quotidienne d'exécution", "Son cantonnement aux services administratifs", "Son caractère exclusivement informatique"], answer:0, explanation:"I. Ansoff distingue : décisions stratégiques (long terme, impact global, peu réversibles), tactiques (moyen terme), opérationnelles (court terme, courantes)."},
+  {theme:6, tag:"Mise en œuvre", q:"La phase de mise en œuvre (ou déploiement) stratégique implique :", options:["L'allocation des ressources, l'organisation et le pilotage opérationnel", "L'arrêt total de la production sur l'ensemble des sites de l'entreprise", "Le changement systématique des dirigeants à la tête de chaque DAS", "Le retour à la situation antérieure à la mise en œuvre du diagnostic"], answer:0, explanation:"Le déploiement stratégique mobilise structures, processus, ressources humaines et financières, et système de pilotage (tableaux de bord, KPI) pour traduire les choix en actions."}
+];
+
+// ================ INIT QUIZ ================
+const container = document.getElementById('quiz-container');
+let userAnswers = {};
+let currentFilter = 'all';
+
+function renderQuiz() {
+    container.innerHTML = '';
+    const t5 = questions.filter(q => q.theme === 5);
+    const t6 = questions.filter(q => q.theme === 6);
+
+    if (currentFilter === 'all' || currentFilter === '5') {
+        const h = document.createElement('div');
+        h.className = 'theme-header';
+        h.innerHTML = '<div class="theme-num">Thème 05</div><div class="theme-title">Les mutations du travail</div>';
+        container.appendChild(h);
+        t5.forEach((q, i) => container.appendChild(buildCard(q, i + 1)));
+    }
+    if (currentFilter === 'all' || currentFilter === '6') {
+        const h = document.createElement('div');
+        h.className = 'theme-header';
+        h.innerHTML = '<div class="theme-num">Thème 06</div><div class="theme-title">Les choix stratégiques de l\'entreprise</div>';
+        container.appendChild(h);
+        t6.forEach((q, i) => container.appendChild(buildCard(q, i + 1)));
+    }
+    updateStats();
+}
+
+function buildCard(q, num) {
+    const idx = questions.indexOf(q);
+    const card = document.createElement('div');
+    card.className = 'question';
+    card.dataset.idx = idx;
+
+    const meta = document.createElement('div');
+    meta.className = 'q-meta';
+    meta.innerHTML = `<span class="q-num">Question ${num}</span><span class="q-tag">${q.tag}</span>`;
+    card.appendChild(meta);
+
+    const text = document.createElement('div');
+    text.className = 'q-text';
+    text.textContent = q.q;
+    card.appendChild(text);
+
+    const opts = document.createElement('div');
+    opts.className = 'options';
+    const letters = ['A', 'B', 'C', 'D'];
+    q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option';
+        btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span class="option-text">${opt}</span>`;
+        btn.onclick = () => answerQuestion(idx, i, card);
+        opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+
+    const exp = document.createElement('div');
+    exp.className = 'explanation';
+    exp.innerHTML = `<strong>Explication</strong>${q.explanation}`;
+    card.appendChild(exp);
+
+    if (userAnswers[idx] !== undefined) {
+        applyAnswerVisual(card, idx, userAnswers[idx]);
+    }
+    return card;
+}
+
+function answerQuestion(idx, choice, card) {
+    if (userAnswers[idx] !== undefined) return;
+    userAnswers[idx] = choice;
+    applyAnswerVisual(card, idx, choice);
+    updateStats();
+}
+
+function applyAnswerVisual(card, idx, choice) {
+    const q = questions[idx];
+    const opts = card.querySelectorAll('.option');
+    opts.forEach((o, i) => {
+        o.disabled = true;
+        if (i === q.answer) o.classList.add('correct');
+        if (i === choice && i !== q.answer) o.classList.add('incorrect');
+    });
+    card.classList.add('answered');
+    card.classList.add(choice === q.answer ? 'correct' : 'incorrect');
+}
+
+function updateStats() {
+    const answered = Object.keys(userAnswers).length;
+    let correct = 0;
+    Object.entries(userAnswers).forEach(([idx, choice]) => {
+        if (questions[idx].answer === choice) correct++;
+    });
+    document.getElementById('answered').textContent = answered;
+    document.getElementById('correct-count').textContent = correct;
+    document.getElementById('incorrect-count').textContent = answered - correct;
+    document.getElementById('progress').style.width = (answered / 100 * 100) + '%';
+
+    const final = document.getElementById('final');
+    if (answered === 100) {
+        final.classList.add('show');
+        const pct = Math.round(correct / 100 * 100);
+        document.getElementById('final-score').textContent = `${correct} / 100 (${pct} %)`;
+        let comment = '';
+        if (pct >= 85) comment = "Excellent — niveau remarquable, prêt pour l'épreuve.";
+        else if (pct >= 70) comment = "Très bien — une bonne maîtrise du référentiel.";
+        else if (pct >= 50) comment = "Honorable — révisez les points manqués pour consolider.";
+        else comment = "À retravailler — reprenez les notions et explications point par point.";
+        document.getElementById('final-comment').textContent = comment;
+    } else {
+        final.classList.remove('show');
+    }
+}
+
+// ================ FILTRES & RESET ================
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        renderQuiz();
+    });
+});
+
+document.getElementById('reset').addEventListener('click', () => {
+    if (confirm('Réinitialiser toutes vos réponses ?')) {
+        userAnswers = {};
+        renderQuiz();
+    }
+});
+
+renderQuiz();
+</script>
+</body>
+</html>
