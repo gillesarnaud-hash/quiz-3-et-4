@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz CEJM — Thèmes 3 & 4 — BTS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #f4ede0;
+    --bg-paper: #fbf6ec;
+    --ink: #1a2238;
+    --ink-soft: #4a5468;
+    --accent: #c84b31;
+    --accent-2: #d4a017;
+    --good: #2d6a4f;
+    --bad: #9b2226;
+    --line: #1a2238;
+    --shadow: 4px 4px 0 var(--ink);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Manrope', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(200, 75, 49, 0.04) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(212, 160, 23, 0.05) 0%, transparent 40%);
+}
+.container { max-width: 980px; margin: 0 auto; padding: 40px 24px 80px; }
+
+/* ================ HEADER ================ */
+header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 28px;
+    margin-bottom: 36px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+}
+.eyebrow {
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 144;
+}
+h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+}
+.subtitle {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-top: 12px;
+    max-width: 520px;
+}
+.badge {
+    background: var(--ink);
+    color: var(--bg-paper);
+    font-family: 'Fraunces', serif;
+    font-size: 13px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+/* ================ DASHBOARD ================ */
+.dashboard {
+    background: var(--bg-paper);
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 24px;
+    align-items: center;
+}
+.progress-block .label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background: rgba(26, 34, 56, 0.1);
+    border: 1px solid var(--ink);
+    overflow: hidden;
+    position: relative;
+}
+.progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.4s ease;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 6px, rgba(0,0,0,0.08) 6px, rgba(0,0,0,0.08) 12px);
+}
+.progress-text {
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 500;
+}
+.stat {
+    text-align: center;
+    border-left: 1px solid rgba(26, 34, 56, 0.2);
+    padding-left: 24px;
+}
+.stat .label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+}
+.stat .value {
+    font-family: 'Fraunces', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-top: 4px;
+    font-variation-settings: "opsz" 144;
+}
+.stat.score .value { color: var(--good); }
+.stat.errors .value { color: var(--bad); }
+
+/* ================ FILTRES ================ */
+.filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.filter-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+    margin-right: 8px;
+}
+.filter-btn {
+    background: var(--bg-paper);
+    border: 1.5px solid var(--ink);
+    padding: 8px 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--ink);
+}
+.filter-btn:hover { background: var(--ink); color: var(--bg-paper); }
+.filter-btn.active {
+    background: var(--ink);
+    color: var(--bg-paper);
+    box-shadow: 2px 2px 0 var(--accent);
+}
+.reset-btn {
+    margin-left: auto;
+    background: transparent;
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
+    padding: 8px 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+.reset-btn:hover { background: var(--accent); color: var(--bg-paper); }
+
+/* ================ THEME HEADER ================ */
+.theme-header {
+    margin: 48px 0 24px;
+    padding: 16px 0;
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+}
+.theme-header:first-of-type { margin-top: 0; }
+.theme-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+.theme-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.7rem;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-top: 4px;
+    font-variation-settings: "opsz" 144;
+}
+
+/* ================ QUESTION CARD ================ */
+.question {
+    background: var(--bg-paper);
+    border: 1.5px solid var(--ink);
+    padding: 28px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s, transform 0.3s;
+    position: relative;
+}
+.question.answered { box-shadow: 3px 3px 0 var(--ink); }
+.question.correct {
+    border-color: var(--good);
+    box-shadow: 3px 3px 0 var(--good);
+}
+.question.incorrect {
+    border-color: var(--bad);
+    box-shadow: 3px 3px 0 var(--bad);
+}
+.q-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+}
+.q-num {
+    background: var(--ink);
+    color: var(--bg-paper);
+    padding: 4px 10px;
+    border-radius: 2px;
+}
+.q-tag {
+    color: var(--accent);
+    font-weight: 600;
+}
+.q-text {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    color: var(--ink);
+    font-variation-settings: "opsz" 24;
+}
+.options { display: grid; gap: 10px; }
+.option {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 1px solid rgba(26, 34, 56, 0.3);
+    background: var(--bg);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+    font-family: 'Manrope', sans-serif;
+    color: var(--ink);
+    width: 100%;
+}
+.option:hover:not(:disabled) {
+    border-color: var(--ink);
+    background: var(--bg-paper);
+    transform: translateX(2px);
+}
+.option:disabled { cursor: default; }
+.option-letter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    background: var(--ink);
+    color: var(--bg-paper);
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 13px;
+    flex-shrink: 0;
+    border-radius: 50%;
+}
+.option.correct {
+    background: rgba(45, 106, 79, 0.12);
+    border-color: var(--good);
+    border-width: 2px;
+}
+.option.correct .option-letter { background: var(--good); }
+.option.incorrect {
+    background: rgba(155, 34, 38, 0.1);
+    border-color: var(--bad);
+    border-width: 2px;
+}
+.option.incorrect .option-letter { background: var(--bad); }
+.option-text { flex: 1; padding-top: 2px; }
+
+/* ================ EXPLICATION ================ */
+.explanation {
+    margin-top: 18px;
+    padding: 16px 18px;
+    background: var(--bg);
+    border-left: 3px solid var(--accent-2);
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    display: none;
+    animation: slideIn 0.3s ease;
+}
+.question.answered .explanation { display: block; }
+.explanation strong {
+    font-family: 'Fraunces', serif;
+    color: var(--ink);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================ FOOTER FINAL ================ */
+.final-message {
+    text-align: center;
+    margin-top: 60px;
+    padding: 40px 24px;
+    background: var(--ink);
+    color: var(--bg-paper);
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow);
+    display: none;
+}
+.final-message.show { display: block; }
+.final-message h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    font-variation-settings: "opsz" 144;
+}
+.final-message p { font-size: 16px; opacity: 0.85; }
+.final-message .accent { color: var(--accent-2); font-weight: 600; }
+
+/* ================ RESPONSIVE ================ */
+@media (max-width: 720px) {
+    header { grid-template-columns: 1fr; }
+    .dashboard { grid-template-columns: 1fr; gap: 16px; }
+    .stat { border-left: none; border-top: 1px solid rgba(26, 34, 56, 0.2); padding-left: 0; padding-top: 16px; }
+    .filters { flex-direction: column; align-items: stretch; }
+    .reset-btn { margin-left: 0; margin-top: 8px; }
+    .question { padding: 20px; }
+    .q-text { font-size: 1.05rem; }
+    .container { padding: 24px 16px 60px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+    <div>
+        <div class="eyebrow">Culture Économique, Juridique & Managériale</div>
+        <h1>Quiz <em>CEJM</em></h1>
+        <p class="subtitle">100 questions QCM — Thèmes 3 & 4 du référentiel BTS — Niveau Bac+2</p>
+    </div>
+    <div class="badge">Session BTS · 100 QCM</div>
+</header>
+
+<div class="dashboard">
+    <div class="progress-block">
+        <div class="label">Progression</div>
+        <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+        <div class="progress-text"><span id="answered">0</span> / <span id="total">100</span> questions répondues</div>
+    </div>
+    <div class="stat score">
+        <div class="label">Bonnes réponses</div>
+        <div class="value" id="correct-count">0</div>
+    </div>
+    <div class="stat errors">
+        <div class="label">Erreurs</div>
+        <div class="value" id="incorrect-count">0</div>
+    </div>
+</div>
+
+<div class="filters">
+    <span class="filter-label">Filtrer :</span>
+    <button class="filter-btn active" data-filter="all">Toutes (100)</button>
+    <button class="filter-btn" data-filter="3">Thème 3 (50)</button>
+    <button class="filter-btn" data-filter="4">Thème 4 (50)</button>
+    <button class="reset-btn" id="reset">↺ Réinitialiser</button>
+</div>
+
+<div id="quiz-container"></div>
+
+<div class="final-message" id="final">
+    <h2>Quiz terminé</h2>
+    <p>Score final : <span class="accent" id="final-score">—</span></p>
+    <p style="margin-top: 8px;" id="final-comment"></p>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {theme:3, tag:"Facteurs de production", q:"Selon l'analyse économique, les facteurs de production combinés par l'entreprise sont :", options:["Capital, travail, matières premières et connaissances", "Marketing, finance et administration", "Clients, fournisseurs et concurrents", "Profit, chiffre d'affaires et marge brute"], answer:0, explanation:"L'entreprise combine quatre facteurs : capital (technique et financier), travail, matières premières et connaissances (savoir-faire, capital humain)."},
+  {theme:3, tag:"Capital", q:"Le capital technique d'une entreprise désigne :", options:["Les actions cotées en bourse de l'entreprise", "Les biens durables servant à produire (machines)", "Le capital social inscrit aux statuts juridiques", "Les liquidités disponibles sur les comptes bancaires"], answer:1, explanation:"Le capital technique (ou capital fixe) regroupe les biens durables utilisés pour produire : machines, équipements, infrastructures."},
+  {theme:3, tag:"Productivité", q:"La productivité du travail se mesure par :", options:["Le nombre total de salariés employés", "Le salaire moyen par salarié", "Le rapport entre production et quantité de travail", "Le chiffre d'affaires annuel global"], answer:2, explanation:"Productivité = production / quantité de travail. C'est un déterminant majeur de la compétitivité et de la croissance."},
+  {theme:3, tag:"Gains de productivité", q:"Un gain de productivité ne permet PAS à l'entreprise de :", options:["Augmenter les salaires de ses employés", "Améliorer ses marges commerciales", "Baisser ses prix de vente", "Réduire la qualité de sa production"], answer:3, explanation:"Les gains de productivité offrent plusieurs marges : baisse des prix, hausse des salaires, hausse des profits, investissement. Réduire la qualité serait contre-productif."},
+  {theme:3, tag:"Coûts fixes", q:"Les coûts fixes sont des coûts qui :", options:["Sont indépendants du volume produit à court terme", "Concernent uniquement les matières premières", "Disparaissent en période de crise économique", "Varient avec le niveau de production"], answer:0, explanation:"Les coûts fixes (loyer, amortissements, salaires des permanents) ne dépendent pas des quantités produites à court terme."},
+  {theme:3, tag:"Coût marginal", q:"Le coût marginal correspond à :", options:["Le coût total divisé par la production", "Le coût total de la dernière commande", "Le coût moyen unitaire de l'exercice", "Le coût d'une unité supplémentaire produite"], answer:3, explanation:"Le coût marginal est le coût additionnel d'une unité produite en plus. Notion centrale en analyse économique de la production."},
+  {theme:3, tag:"Économies d'échelle", q:"Les économies d'échelle correspondent à :", options:["Une hausse du coût unitaire avec le volume", "Une baisse du coût unitaire avec le volume", "Une économie réalisée sur les salaires", "Une baisse du chiffre d'affaires global"], answer:1, explanation:"En augmentant le volume, l'entreprise répartit ses coûts fixes sur plus d'unités, ce qui fait baisser le coût unitaire moyen."},
+  {theme:3, tag:"Effet d'expérience", q:"Selon le BCG, l'effet d'expérience signifie que :", options:["Les salariés expérimentés sont mieux payés", "La qualité augmente avec l'âge des produits", "Le coût unitaire baisse avec la production cumulée", "La formation continue est obligatoire"], answer:2, explanation:"À chaque doublement de la production cumulée, le coût unitaire baisse (apprentissage + économies d'échelle + innovation)."},
+  {theme:3, tag:"Chaîne de valeur", q:"La chaîne de valeur de M. Porter sert à :", options:["Identifier les activités créatrices de valeur", "Fixer les prix de vente publics et catalogues", "Recruter du personnel qualifié et formé", "Calculer la TVA collectée et déductible"], answer:0, explanation:"M. Porter (1985) décompose l'entreprise en activités principales et de soutien pour identifier les sources d'avantage concurrentiel."},
+  {theme:3, tag:"Chaîne de valeur", q:"Selon Porter, laquelle est une activité de SOUTIEN (et non principale) ?", options:["La commercialisation des produits finis", "La logistique entrante des matières", "La gestion des ressources humaines", "La production des biens et services"], answer:2, explanation:"Activités de soutien : infrastructure, GRH, R&D, approvisionnements. Activités principales : logistique amont, production, logistique aval, marketing-vente, services."},
+  {theme:3, tag:"Faire-faire", q:"Le choix « faire ou faire faire » repose principalement sur :", options:["Le secteur d'activité seul", "Les coûts, compétences et risques", "L'âge moyen du dirigeant", "La taille de l'entreprise uniquement"], answer:1, explanation:"Le choix d'internaliser ou d'externaliser dépend des coûts (production vs transaction), du caractère stratégique, des compétences et des risques de dépendance."},
+  {theme:3, tag:"Impartition", q:"L'impartition désigne :", options:["Une augmentation du capital social", "Le partage des bénéfices entre associés", "Un licenciement collectif pour motif économique", "Une coopération avec d'autres entreprises"], answer:3, explanation:"L'impartition (Barreyre) est le choix de faire faire tout ou partie de l'activité par d'autres : sous-traitance, franchise, licence, partenariat."},
+  {theme:3, tag:"Sous-traitance", q:"On distingue principalement deux types de sous-traitance :", options:["Régionale et nationale selon la zone", "Courte et longue durée selon la période", "Capacité (surcroît) et spécialité", "Privée et publique selon le donneur"], answer:2, explanation:"Sous-traitance de capacité : surcroît temporaire d'activité. Sous-traitance de spécialité (structurelle) : accès à un savoir-faire externe."},
+  {theme:3, tag:"Externalisation", q:"Quel est un risque majeur de l'externalisation ?", options:["La dépendance vis-à-vis du prestataire", "Une hausse mécanique des coûts", "La fin du capital social", "Une baisse globale de la production"], answer:0, explanation:"Risques principaux : perte de compétences clés, dépendance, problèmes de qualité, fuite d'information stratégique."},
+  {theme:3, tag:"Structures juridiques", q:"Les facteurs de choix d'une structure juridique incluent :", options:["Le seul chiffre d'affaires prévu", "Nombre d'associés, capital, responsabilité, fiscalité", "L'âge des associés exclusivement", "Le seul secteur géographique d'activité"], answer:1, explanation:"Le choix dépend du nombre d'associés, des apports, de la responsabilité, de la fiscalité (IR/IS), du régime social, de la transmission."},
+  {theme:3, tag:"Entreprise individuelle", q:"L'entreprise individuelle (EI) :", options:["Possède une personnalité morale distincte", "Comporte plusieurs associés obligatoires", "Exige un capital minimum de 7 500 €", "N'a pas de personnalité morale"], answer:3, explanation:"L'EI n'a pas de personnalité morale. Depuis la loi du 14 février 2022, le patrimoine professionnel est de plein droit séparé du patrimoine personnel."},
+  {theme:3, tag:"Micro-entreprise", q:"Le régime de la micro-entreprise est :", options:["Une SAS allégée pour les jeunes", "Un régime fiscal et social simplifié de l'EI", "Une nouvelle forme juridique autonome", "Une coopérative à associé unique"], answer:1, explanation:"La micro-entreprise est un régime simplifié pour l'EI sous certains seuils de chiffre d'affaires. Ce n'est pas une forme juridique en soi."},
+  {theme:3, tag:"EURL", q:"L'EURL est :", options:["Une SARL à associé unique", "Une coopérative ouvrière", "Une SA simplifiée", "Une entreprise sans capital social"], answer:0, explanation:"L'EURL est une SARL d'associé unique. Responsabilité limitée aux apports, IR par défaut, option IS possible."},
+  {theme:3, tag:"SARL", q:"La SARL se caractérise par :", options:["Un seul associé strictement", "Une exclusion des PME", "Un capital minimum imposé de 37 000 €", "De 2 à 100 associés et responsabilité limitée"], answer:3, explanation:"SARL : 2 à 100 associés, capital librement fixé, responsabilité limitée aux apports, gérée par un ou plusieurs gérants. IS par défaut."},
+  {theme:3, tag:"SA", q:"Quelle affirmation sur la SA est exacte ?", options:["Aucun capital social n'est exigé par la loi", "Réservée exclusivement aux PME indépendantes", "Capital de 37 000 € et 2 actionnaires minimum", "Un seul actionnaire suffit toujours pour la créer"], answer:2, explanation:"SA : capital minimum 37 000 €, 2 actionnaires minimum (7 si cotée), dirigée par CA + DG ou directoire. Adaptée aux grandes entreprises."},
+  {theme:3, tag:"SAS", q:"La SAS se caractérise par :", options:["Un capital minimum élevé obligatoire", "Un nombre d'associés limité à 5", "L'obligation d'être cotée en bourse", "Une grande liberté statutaire"], answer:3, explanation:"SAS : capital librement fixé, 1 ou plusieurs associés (SASU si unique), grande souplesse statutaire, président assimilé salarié."},
+  {theme:3, tag:"SNC", q:"Dans une SNC, les associés :", options:["Sont responsables indéfiniment et solidairement", "Ont une responsabilité limitée à leurs apports", "Doivent être obligatoirement cotés", "N'ont aucune responsabilité personnelle"], answer:0, explanation:"La SNC est une société de personnes : associés commerçants, responsables indéfiniment et solidairement sur leur patrimoine personnel."},
+  {theme:3, tag:"Fiscalité", q:"Par défaut, la SARL et la SAS sont soumises à :", options:["L'impôt sur le revenu (IR)", "L'impôt sur les sociétés (IS)", "Aucune imposition directe", "La TVA exclusivement"], answer:1, explanation:"SARL et SAS sont à l'IS par défaut. Option IR possible sous conditions (5 ans max, sauf SARL de famille)."},
+  {theme:3, tag:"ESS", q:"L'économie sociale et solidaire (ESS) regroupe :", options:["Les seules entreprises agricoles familiales", "Les seules entreprises publiques nationales", "Coopératives, mutuelles, associations", "Les multinationales cotées en bourse"], answer:2, explanation:"Loi du 31 juillet 2014 : l'ESS regroupe les coopératives, mutuelles, associations, fondations et sociétés ESUS."},
+  {theme:3, tag:"Coopérative", q:"Le principe fondamental de la coopérative est :", options:["L'absence totale de gouvernance", "« Une personne, une voix »", "Une cotation obligatoire en bourse", "La maximisation du profit actionnarial"], answer:1, explanation:"La coopérative repose sur la double qualité associé/usager, la gouvernance démocratique et la lucrativité limitée."},
+  {theme:3, tag:"Mutuelle", q:"Une mutuelle est :", options:["Une fondation publique d'État", "Une société commerciale ordinaire", "Un groupement à but non lucratif", "Une coopérative agricole spécialisée"], answer:2, explanation:"Régies par le Code de la mutualité ou des assurances, les mutuelles fonctionnent sans capital social, sur un principe de solidarité entre adhérents."},
+  {theme:3, tag:"Inexécution", q:"En cas d'inexécution contractuelle, le créancier peut (art. 1217 C. civ.) :", options:["Imposer seul une nouvelle clause au contrat", "Saisir directement les biens du débiteur", "Modifier unilatéralement le contrat signé", "Demander l'exécution forcée ou la résolution"], answer:3, explanation:"Article 1217 : exception d'inexécution, exécution forcée, réduction du prix, résolution, dommages-intérêts."},
+  {theme:3, tag:"Force majeure", q:"La force majeure (art. 1218 C. civ.) suppose un événement :", options:["Imprévisible, irrésistible et extérieur", "Prévisible et facilement évitable", "Mineur et habituel pour le secteur", "Lié à la faute du débiteur"], answer:0, explanation:"Article 1218 : événement échappant au contrôle du débiteur, imprévisible à la conclusion, dont les effets ne peuvent être évités."},
+  {theme:3, tag:"Responsabilité civile", q:"La fonction principale de la responsabilité civile est de :", options:["Imposer une amende à l'État", "Sanctionner pénalement l'auteur", "Réparer le dommage causé à autrui", "Punir sévèrement le coupable"], answer:2, explanation:"La responsabilité civile a une fonction réparatrice : indemniser la victime. La pénale a une fonction répressive."},
+  {theme:3, tag:"Resp. extracontractuelle", q:"La responsabilité civile extracontractuelle suppose :", options:["Un contrat préalablement signé", "Une infraction pénale caractérisée", "L'absence totale de victime", "Fait générateur, dommage et lien de causalité"], answer:3, explanation:"Articles 1240 et suivants C. civ. : trois conditions cumulatives (fait générateur, dommage, lien de causalité), hors de tout contrat."},
+  {theme:3, tag:"Dommage", q:"Pour être réparable, le dommage doit être :", options:["Certain, direct et personnel", "Hypothétique et éventuel", "Exclusivement matériel", "Uniquement de nature morale"], answer:0, explanation:"Le dommage réparable doit être certain, direct, personnel et légitime. Il peut être matériel, corporel ou moral."},
+  {theme:3, tag:"Mintzberg", q:"Selon H. Mintzberg, parmi les mécanismes de coordination figurent :", options:["Uniquement la hiérarchie verticale", "Ajustement, supervision, standardisation", "Le marketing et la finance", "L'innovation produit seule"], answer:1, explanation:"Mintzberg distingue 6 mécanismes : ajustement mutuel, supervision directe, standardisation des procédés, des résultats, des qualifications, des normes."},
+  {theme:3, tag:"Structure fonctionnelle", q:"Une structure fonctionnelle est organisée selon :", options:["Les segments de clientèle ciblés", "Les grandes fonctions de l'entreprise", "Les zones géographiques desservies", "Les gammes de produits proposés"], answer:1, explanation:"La structure fonctionnelle (Fayol) regroupe les activités par fonction. Avantages : spécialisation. Inconvénients : rigidité, cloisonnement."},
+  {theme:3, tag:"Structure divisionnelle", q:"Une structure divisionnelle est organisée par :", options:["Produits, marchés ou clients", "Niveaux hiérarchiques croissants", "Date de création des services", "Fonctions exclusivement"], answer:0, explanation:"La structure divisionnelle (Sloan, GM) découpe l'entreprise en divisions autonomes par produits, zones ou clients."},
+  {theme:3, tag:"Structure matricielle", q:"La structure matricielle se caractérise par :", options:["Une hiérarchie pyramidale pure", "Une utilisation exclusive en PME", "L'absence totale de chef", "Le croisement de deux logiques"], answer:3, explanation:"La structure matricielle combine deux dimensions (fonction × projet/produit). Favorise la transversalité mais peut générer des conflits d'autorité."},
+  {theme:3, tag:"Niveaux de management", q:"Les trois niveaux classiques de management sont :", options:["Direction, cadres, ouvriers", "Public, privé, mixte", "Stratégique, tactique, opérationnel", "Production, vente, finance"], answer:2, explanation:"Stratégique (long terme, dirigeants), tactique (moyen terme, encadrement intermédiaire), opérationnel (court terme, exécution)."},
+  {theme:3, tag:"Ressources", q:"Une ressource intangible est, par exemple :", options:["La trésorerie disponible", "Le matériel de production", "Un bâtiment industriel", "La marque ou le savoir-faire"], answer:3, explanation:"Les ressources tangibles sont matérielles. Les intangibles : marque, image, culture, savoir-faire, brevets, relations clients."},
+  {theme:3, tag:"Processus", q:"Un processus dans l'entreprise est :", options:["Un ensemble d'activités créant de la valeur", "Une opération financière unique", "Un service ou département", "Une décision ponctuelle isolée"], answer:0, explanation:"Un processus est une suite d'activités coordonnées (inputs → outputs). On distingue processus de management, métier, supports."},
+  {theme:3, tag:"RSE", q:"La responsabilité sociétale des entreprises (RSE) est :", options:["Une démarche purement marketing et publicitaire", "Une obligation légale strictement codifiée", "Une démarche volontaire sociale et environnementale", "Le simple respect du Code du travail français"], answer:2, explanation:"La RSE (norme ISO 26000, loi PACTE 2019) est une démarche volontaire. La loi PACTE permet aussi la raison d'être et le statut d'entreprise à mission."},
+  {theme:3, tag:"Contre-pouvoirs", q:"Un contre-pouvoir dans l'entreprise est :", options:["Un département interne stratégique", "Une force qui modère le pouvoir des dirigeants", "Un bénéfice exceptionnel partagé", "Une innovation produit lancée"], answer:1, explanation:"Contre-pouvoirs : syndicats, CSE, actionnaires minoritaires, AAI, médias, ONG. Ils encadrent et équilibrent le pouvoir des dirigeants."},
+  {theme:3, tag:"Cycle exploitation", q:"Le cycle d'exploitation regroupe :", options:["Les emprunts immobiliers à long terme", "Les investissements à très long terme productifs", "Les opérations courantes (achats, production)", "Les distributions de dividendes aux actionnaires"], answer:2, explanation:"Cycle court regroupant les opérations courantes : achat, production, stockage, vente, encaissement. Génère le BFR."},
+  {theme:3, tag:"Compte de résultat", q:"Le compte de résultat présente :", options:["La trésorerie disponible immédiate", "Le patrimoine à un instant donné", "Les emprunts en cours uniquement", "Les produits, charges et résultat de l'exercice"], answer:3, explanation:"Document de flux retraçant l'activité : produits − charges = résultat net. Distinct du bilan, qui est une photo du patrimoine."},
+  {theme:3, tag:"Bilan", q:"Le bilan est un document :", options:["De flux de trésorerie de l'exercice", "Présentant le patrimoine à une date", "De prévisions commerciales annuelles", "De stratégie marketing à moyen terme"], answer:1, explanation:"Le bilan est une photographie du patrimoine à la clôture : actif (emplois) = passif (ressources)."},
+  {theme:3, tag:"Bilan actif", q:"À l'actif du bilan, on trouve :", options:["Les emplois (immobilisations, stocks, créances)", "Les capitaux propres de l'entreprise", "Les dettes fournisseurs courantes", "Les emprunts bancaires en cours"], answer:0, explanation:"Actif = emplois. Actif immobilisé (incorporel, corporel, financier) + actif circulant (stocks, créances, VMP, disponibilités)."},
+  {theme:3, tag:"Autofinancement", q:"L'autofinancement correspond à :", options:["Une subvention publique reçue", "Le financement par les ressources internes", "Un emprunt bancaire à long terme", "Une augmentation de capital externe"], answer:1, explanation:"L'autofinancement utilise les ressources internes (CAF). C'est un financement interne, sans coût explicite."},
+  {theme:3, tag:"CAF", q:"La capacité d'autofinancement (CAF) mesure :", options:["Le chiffre d'affaires hors taxes", "Le bénéfice net après impôt", "La dette financière totale", "Le potentiel de financement interne"], answer:3, explanation:"CAF = produits encaissables − charges décaissables. Mesure les ressources internes disponibles pour investir ou rembourser."},
+  {theme:3, tag:"Financement externe", q:"Lequel n'est PAS un mode de financement externe ?", options:["L'autofinancement par CAF", "L'émission d'obligations", "L'emprunt bancaire classique", "L'augmentation de capital"], answer:0, explanation:"L'autofinancement est un financement interne. Les modes externes : capitaux propres externes, dettes, crédit-bail, subventions, financement participatif."},
+  {theme:3, tag:"Crédit-bail", q:"Le crédit-bail (leasing) consiste à :", options:["Vendre une créance commerciale", "Acheter un bien à crédit classique", "Louer un bien avec option d'achat", "Émettre des obligations cotées"], answer:2, explanation:"Le crédit-bail : location d'un bien (mobilier ou immobilier) avec promesse de vente. À l'échéance, option d'achat à un prix résiduel."},
+  {theme:3, tag:"Finance directe", q:"La finance directe correspond à :", options:["Une subvention publique", "Un financement par les marchés financiers", "Un prêt bancaire classique", "Un microcrédit aux particuliers"], answer:1, explanation:"Finance directe : entreprise et investisseurs sur les marchés. Finance indirecte (intermédiée) : la banque collecte l'épargne et accorde des crédits."},
+  {theme:3, tag:"Fonds de roulement", q:"Le fonds de roulement (FR) se calcule comme :", options:["Le chiffre d'affaires annuel", "Le résultat net comptable", "La trésorerie disponible nette", "Capitaux permanents − actif immobilisé"], answer:3, explanation:"FR = capitaux permanents − actif immobilisé. C'est l'excédent de ressources stables qui finance le cycle d'exploitation."},
+  {theme:4, tag:"Numérique", q:"Le numérique se définit comme :", options:["Les imprimantes 3D modernes uniquement", "Internet, le Web et les seuls réseaux sociaux", "La convergence des technologies de l'information", "Les ordinateurs, tablettes et smartphones seuls"], answer:2, explanation:"Le numérique résulte de la convergence des technologies (informatique, télécoms, audiovisuel) permettant le traitement et la transmission instantanée d'informations."},
+  {theme:4, tag:"Place de marché", q:"Une place de marché (marketplace) est :", options:["Une plateforme reliant acheteurs et vendeurs", "Un magasin physique de centre-ville", "Un réseau social grand public", "Une banque en ligne traditionnelle"], answer:0, explanation:"Une place de marché agrège l'offre et la demande sur une plateforme et se rémunère par commission (Amazon, eBay, Airbnb)."},
+  {theme:4, tag:"B to B", q:"Une relation B to B désigne :", options:["Une vente entre deux particuliers", "Une vente entre deux entreprises", "Un échange avec l'administration publique", "Une vente au consommateur final"], answer:1, explanation:"B to B : relations commerciales entre entreprises (fournisseurs, sous-traitants). Volumes plus importants, cycles de vente plus longs."},
+  {theme:4, tag:"B to C", q:"Une relation B to C désigne :", options:["Une vente entre deux particuliers", "Une relation avec l'État central", "Une vente entre deux entreprises", "Une vente d'entreprise à consommateur"], answer:3, explanation:"B to C : commerce d'une entreprise vers le consommateur final (Fnac, Amazon, sites e-commerce). Cycle court, volume unitaire faible."},
+  {theme:4, tag:"C to C", q:"Une relation C to C désigne :", options:["Une vente directe au consommateur", "Une transaction publique encadrée", "Des échanges entre particuliers", "Une vente d'entreprise à entreprise"], answer:2, explanation:"C to C : échanges entre particuliers (Le Bon Coin, Vinted, Blablacar). Caractéristique de l'économie collaborative."},
+  {theme:4, tag:"B to G", q:"Une relation B to G concerne :", options:["Les relations entreprises-administrations", "Les ventes à l'étranger uniquement", "Les relations entre particuliers", "L'autoconsommation des ménages"], answer:0, explanation:"B to G : relations commerciales entre entreprises et administrations (État, collectivités), encadrées par les marchés publics."},
+  {theme:4, tag:"Externalité de réseau", q:"Une externalité de réseau désigne :", options:["Une connexion Internet à haut débit", "L'utilité croissant avec les utilisateurs", "Un effet publicitaire mesurable", "La pollution numérique invisible"], answer:1, explanation:"L'utilité d'un service croît avec le nombre d'utilisateurs (Katz et Shapiro). Crée des effets winner-takes-all."},
+  {theme:4, tag:"Économie collaborative", q:"L'économie collaborative se caractérise par :", options:["Le partage et la mutualisation", "La production de masse standardisée", "L'autarcie économique stricte", "La concentration industrielle accrue"], answer:0, explanation:"L'économie collaborative repose sur le partage, la mutualisation, l'usage plutôt que la propriété (Airbnb, Blablacar)."},
+  {theme:4, tag:"Économie fonctionnalité", q:"L'économie de la fonctionnalité consiste à :", options:["Vendre un produit en magasin", "Faire payer les frais de livraison", "Maximiser la production en série", "Vendre l'usage plutôt que la propriété"], answer:3, explanation:"Le client paie l'usage et non la propriété (Spotify, Netflix, Michelin Fleet Solutions)."},
+  {theme:4, tag:"Modèle économique", q:"Un modèle économique (business model) décrit :", options:["Le seul plan marketing annuel détaillé", "La comptabilité interne de l'entreprise", "Comment l'entreprise crée et capte la valeur", "La fiscalité applicable au secteur d'activité"], answer:2, explanation:"Le business model (Osterwalder) décrit la logique de création, délivrance et captation de valeur par l'entreprise."},
+  {theme:4, tag:"Freemium", q:"Le modèle « freemium » consiste à :", options:["Offrir un service gratuit + options payantes", "Faire payer la première utilisation", "Offrir tout gratuitement sans limite", "Vendre uniquement aux entreprises"], answer:0, explanation:"Modèle classique : version gratuite limitée + abonnement payant pour les fonctions avancées (Spotify, LinkedIn, Dropbox)."},
+  {theme:4, tag:"Norme et standard", q:"La norme se distingue du standard car :", options:["Les deux sont totalement identiques", "La norme est officielle, le standard de fait", "La norme est privée et le standard public", "La norme est obligatoire, le standard payant"], answer:1, explanation:"Norme = règle élaborée par un organisme officiel (ISO, AFNOR), parfois obligatoire. Standard = pratique imposée par le marché (HTML, PDF)."},
+  {theme:4, tag:"Uberisation", q:"L'uberisation désigne :", options:["Une concentration industrielle locale", "L'achat d'une entreprise concurrente", "La transformation par des plateformes", "Une délocalisation à l'étranger"], answer:2, explanation:"L'uberisation : remise en cause d'acteurs traditionnels par des plateformes numériques (Uber/taxis, Airbnb/hôtellerie)."},
+  {theme:4, tag:"Désintermédiation", q:"La désintermédiation numérique désigne :", options:["Une fusion entre entreprises", "Une externalisation à l'étranger", "L'ajout d'intermédiaires multiples", "La suppression d'intermédiaires traditionnels"], answer:3, explanation:"Le numérique permet de mettre directement en relation producteurs et consommateurs, supprimant ou réduisant les intermédiaires."},
+  {theme:4, tag:"CNIL", q:"La CNIL est :", options:["Un ministère du gouvernement", "Une AAI chargée des données personnelles", "Un opérateur télécom historique", "Un syndicat de l'industrie numérique"], answer:1, explanation:"La CNIL, AAI créée en 1978, veille à la protection des données personnelles et applique le RGPD."},
+  {theme:4, tag:"CNIL", q:"Laquelle ne relève PAS de la CNIL ?", options:["Contrôler et sanctionner les manquements", "Délivrer des labels de conformité", "Fixer les tarifs des opérateurs télécoms", "Informer sur les droits et obligations"], answer:2, explanation:"La CNIL informe, contrôle, sanctionne, conseille. Les tarifs télécoms relèvent de l'ARCEP, autre AAI."},
+  {theme:4, tag:"RGPD", q:"Le RGPD est entré en application :", options:["Le 1er janvier 2010", "Le 1er janvier 2020", "Le 1er janvier 2025", "Le 25 mai 2018"], answer:3, explanation:"Le RGPD (UE 2016/679) est applicable directement dans toute l'UE depuis le 25 mai 2018."},
+  {theme:4, tag:"Donnée personnelle", q:"Une donnée à caractère personnel est :", options:["Toute information sur une personne identifiable", "Une donnée chiffrée publique", "Une donnée d'entreprise stratégique", "Une donnée d'État anonymisée"], answer:0, explanation:"Article 4 du RGPD : nom, e-mail, photo, adresse IP, biométrie… toute information permettant d'identifier directement ou indirectement une personne."},
+  {theme:4, tag:"RGPD", q:"Quelle sanction maximale prévoit le RGPD ?", options:["Trois ans de prison ferme", "Une simple lettre d'avertissement", "10 000 € d'amende administrative", "Jusqu'à 20 M€ ou 4 % du CA mondial"], answer:3, explanation:"Article 83 RGPD : amendes jusqu'à 20 M€ ou 4 % du CA mondial annuel, le montant le plus élevé étant retenu."},
+  {theme:4, tag:"Droits RGPD", q:"Lequel n'est PAS un droit reconnu par le RGPD ?", options:["Le droit de rectification", "Le droit à la rentabilité", "Le droit à l'effacement (oubli)", "Le droit d'accès aux données"], answer:1, explanation:"Le RGPD reconnaît : droit d'information, accès, rectification, effacement, limitation, portabilité, opposition."},
+  {theme:4, tag:"Identité numérique", q:"L'identité numérique d'une personne désigne :", options:["L'ensemble de ses traces en ligne", "Sa carte d'identité physique", "Son adresse postale officielle", "Son passeport biométrique"], answer:0, explanation:"L'identité numérique regroupe les traces, profils, contributions, données partagées en ligne (e-réputation, traces volontaires et involontaires)."},
+  {theme:4, tag:"Droit d'auteur", q:"Le droit d'auteur protège :", options:["Une marque commerciale déposée", "Un secret de fabrication", "Une œuvre de l'esprit originale", "Un brevet d'invention industrielle"], answer:2, explanation:"Le droit d'auteur protège automatiquement les œuvres de l'esprit originales (livres, logiciels, musiques) dès leur création. Pas besoin de dépôt."},
+  {theme:4, tag:"Droit d'auteur", q:"En France, les droits patrimoniaux d'une œuvre durent :", options:["100 ans à compter de la création", "5 ans après la création initiale", "De manière perpétuelle et illimitée", "Toute la vie de l'auteur + 70 ans"], answer:3, explanation:"Article L. 123-1 CPI : les droits patrimoniaux durent toute la vie de l'auteur + 70 ans. Les droits moraux sont perpétuels."},
+  {theme:4, tag:"Logiciels", q:"Un logiciel est protégé en France par :", options:["Le brevet d'invention", "Le droit des marques déposées", "Le droit d'auteur", "Le droit fiscal des sociétés"], answer:2, explanation:"En France et en Europe, le logiciel n'est pas brevetable en tant que tel ; il est protégé par le droit d'auteur (articles L. 112-2 et L. 122-6 CPI)."},
+  {theme:4, tag:"Open source", q:"Une licence open source / libre :", options:["Permet usage et modification sous conditions", "Interdit toute modification du code source", "Est gratuite et sans règle d'utilisation", "Donne tous les droits sans aucune contrepartie"], answer:0, explanation:"Les licences libres (GPL, MIT, Apache) autorisent usage, étude, modification et redistribution sous conditions (mention de l'auteur, conservation de la licence)."},
+  {theme:4, tag:"Preuve électronique", q:"En droit français, l'écrit électronique :", options:["Doit toujours être notarié pour être valide", "Vaut le papier sous conditions d'intégrité", "N'est valable qu'entre commerçants inscrits", "N'a aucune valeur juridique probante"], answer:1, explanation:"Article 1366 C. civ. : l'écrit électronique a la même force probante que le papier dès lors que son auteur est identifié et l'intégrité garantie."},
+  {theme:4, tag:"Signature électronique", q:"La signature électronique :", options:["N'est jamais juridiquement valable", "Vaut signature manuscrite si conforme à eIDAS", "Doit être manuscrite ensuite", "Est strictement interdite en France"], answer:1, explanation:"Article 1367 C. civ. + règlement eIDAS UE n° 910/2014 : la signature électronique est valable. Trois niveaux : simple, avancée, qualifiée."},
+  {theme:4, tag:"Contrat électronique", q:"Le contrat de vente électronique en B to C :", options:["Bénéficie d'un cadre juridique spécifique", "N'est valable qu'entre professionnels", "Est interdit par la loi", "Doit être conclu par écrit papier obligatoirement"], answer:0, explanation:"Le contrat électronique B to C bénéficie de protections spécifiques : information précontractuelle, double clic, droit de rétractation."},
+  {theme:4, tag:"Rétractation", q:"En B to C, le droit de rétractation est généralement de :", options:["48 heures ouvrées", "7 jours calendaires", "30 jours calendaires", "14 jours calendaires"], answer:3, explanation:"Article L. 221-18 du Code de la consommation : 14 jours calendaires à compter de la réception du bien (ou conclusion du contrat pour un service)."},
+  {theme:4, tag:"Prestation numérique", q:"Le contrat de prestation de services numériques inclut généralement :", options:["Un prix non déterminable", "Aucune obligation particulière", "Des SLA, clauses de confidentialité, RGPD", "Une totale gratuité du service"], answer:2, explanation:"Ces contrats incluent souvent des Service Level Agreements (niveaux de service), clauses de confidentialité, sécurité, propriété des données et conformité RGPD."},
+  {theme:4, tag:"Cybersurveillance", q:"L'employeur peut surveiller l'activité numérique des salariés :", options:["Avec information préalable et proportionnalité", "Uniquement pendant les heures de nuit", "Sans aucune limite ni information préalable", "Sur autorisation expresse des prud'hommes"], answer:0, explanation:"La cybersurveillance est légale sous conditions : transparence (information préalable), proportionnalité, discussion avec le CSE."},
+  {theme:4, tag:"Système d'information", q:"Le système d'information (SI) est :", options:["Un département des ressources humaines internes", "Un ensemble cohérent de ressources informationnelles", "Le seul service comptable et financier", "L'ensemble des ordinateurs et serveurs uniquement"], answer:1, explanation:"Le SI comprend données, logiciels, matériels, procédures et personnes. Il sert à la décision, la coordination, le contrôle, la communication, la production."},
+  {theme:4, tag:"PGI / ERP", q:"Un PGI (ou ERP) est :", options:["Un logiciel de comptabilité seul", "Un réseau social interne", "Un site web institutionnel", "Un progiciel intégrant tous les processus"], answer:3, explanation:"PGI/ERP (SAP, Oracle, Sage) : base de données unique, modules intégrés (comptabilité, achats, ventes, RH, production)."},
+  {theme:4, tag:"CRM", q:"Un CRM (Customer Relationship Management) sert à :", options:["Stocker les marchandises au dépôt", "Gérer la production industrielle", "Gérer la relation client (prospects, ventes)", "Calculer les salaires mensuels"], answer:2, explanation:"Le CRM/GRC centralise les informations clients pour la prospection, le marketing, la vente et le SAV (Salesforce, HubSpot)."},
+  {theme:4, tag:"Cloud", q:"Le cloud computing désigne :", options:["Un protocole d'envoi de courriels professionnels", "La fourniture de ressources informatiques en ligne", "Un type particulier de processeur dernière génération", "Un câble de fibre optique transatlantique"], answer:1, explanation:"Le cloud propose des services à la demande (IaaS, PaaS, SaaS) via Internet, facturés à l'usage."},
+  {theme:4, tag:"SaaS", q:"Le modèle SaaS (Software as a Service) consiste à :", options:["Acheter un logiciel sur support physique", "Vendre du matériel informatique", "Louer l'usage d'un logiciel en ligne", "Développer son propre logiciel interne"], answer:2, explanation:"En SaaS (Office 365, Salesforce, Google Workspace), le client utilise le logiciel via le web, par abonnement."},
+  {theme:4, tag:"Ransomware", q:"Une cyberattaque par rançongiciel (ransomware) consiste à :", options:["Espionner discrètement les e-mails", "Diffamer une personne en ligne", "Voler une carte bancaire", "Chiffrer les données et exiger une rançon"], answer:3, explanation:"Le ransomware chiffre les fichiers de la victime et exige une rançon (souvent en cryptomonnaie) pour la clé de déchiffrement."},
+  {theme:4, tag:"Phishing", q:"Le phishing (hameçonnage) consiste à :", options:["Envoyer des messages frauduleux", "Saturer un site internet", "Diffuser un virus informatique", "Pirater un serveur d'entreprise"], answer:0, explanation:"Le phishing imite un acteur de confiance pour piéger l'utilisateur et obtenir identifiants, mots de passe ou données bancaires."},
+  {theme:4, tag:"2FA", q:"L'authentification à deux facteurs (2FA) :", options:["Remplace tous les mots de passe", "Renforce la sécurité par double vérification", "Est strictement interdite en France", "Est inutile et ralentit l'accès"], answer:1, explanation:"Le 2FA combine ce que l'utilisateur sait (mot de passe) et ce qu'il a (téléphone, clé USB) ou ce qu'il est (biométrie)."},
+  {theme:4, tag:"Outils collaboratifs", q:"Les outils collaboratifs (Google, Microsoft 365, Slack) facilitent :", options:["La sauvegarde automatique seule", "Uniquement le stockage de données", "La centralisation des fichiers", "Le travail à distance et le partage"], answer:3, explanation:"Ces outils permettent l'édition simultanée, la messagerie instantanée, la visio, le partage de fichiers, la gestion de projet."},
+  {theme:4, tag:"Télétravail", q:"Le télétravail est encadré en France par :", options:["Les articles L. 1222-9 du Code du travail", "Aucun texte légal spécifique en France", "Le Code civil de 1804 exclusivement", "Le Code de commerce de 1807 modifié"], answer:0, explanation:"Articles L. 1222-9 à L. 1222-11 C. trav. : volontariat, mise en place par accord collectif, charte ou simple accord. Frais à la charge de l'employeur."},
+  {theme:4, tag:"Management numérique", q:"L'impact du numérique sur le management se traduit par :", options:["Une centralisation totale", "Une suppression de la hiérarchie", "Un management plus agile et data-driven", "La fin du management"], answer:2, explanation:"Le numérique favorise un management plus collaboratif, transversal, fondé sur la donnée, agile, et transforme les modes de coordination."},
+  {theme:4, tag:"Spécialisation", q:"Dans une organisation, la spécialisation consiste à :", options:["Faire travailler tout le monde sur tout", "Diviser les tâches selon les compétences", "Réduire volontairement la productivité", "Centraliser toutes les décisions"], answer:1, explanation:"La spécialisation (Smith, Taylor) divise le travail selon les compétences pour gagner en efficacité."},
+  {theme:4, tag:"Intégration", q:"L'intégration dans une organisation vise à :", options:["Externaliser toutes les fonctions", "Augmenter seulement la spécialisation", "Diviser davantage les services", "Coordonner les efforts vers un objectif commun"], answer:3, explanation:"L'intégration assure la cohérence d'ensemble par des mécanismes de coordination (procédures, technologies, hiérarchie, ajustement mutuel)."},
+  {theme:4, tag:"Organisation collaborative", q:"Une organisation collaborative se caractérise par :", options:["Le partage et la transversalité", "La centralisation absolue des décisions", "Une hiérarchie pyramidale rigide", "L'isolement progressif des salariés"], answer:0, explanation:"Les organisations collaboratives s'appuient sur les outils numériques pour favoriser la transversalité, le partage de connaissances et la co-construction."},
+  {theme:4, tag:"Risques SI", q:"Parmi les risques liés au système d'information figurent :", options:["Une sécurité automatique absolue", "Aucune sauvegarde nécessaire", "La cybercriminalité et la perte de données", "Une infaillibilité totale du système"], answer:2, explanation:"Risques classiques : cybercriminalité, perte ou vol de données, panne, obsolescence, dépendance, non-conformité, mauvais usage."},
+  {theme:4, tag:"Fracture numérique", q:"La fracture numérique désigne :", options:["Un problème matériel des serveurs", "La concurrence entre opérateurs", "Une panne nationale du réseau", "Les inégalités d'accès et d'usage"], answer:3, explanation:"La fracture numérique recouvre les inégalités d'équipement, de débit, de compétences (illectronisme) et d'usage. Enjeu social et territorial."},
+  {theme:4, tag:"GAFAM", q:"Les GAFAM désignent :", options:["Cinq normes ISO de cybersécurité", "Google, Apple, Facebook, Amazon, Microsoft", "Cinq syndicats français du numérique", "Cinq pays développés du G7"], answer:1, explanation:"L'acronyme regroupe ces cinq leaders technologiques américains, dont la puissance soulève des enjeux concurrentiels, fiscaux et de souveraineté."},
+  {theme:4, tag:"Innovation numérique", q:"Concernant l'effet du numérique sur l'innovation :", options:["Le numérique accélère et démultiplie l'innovation", "Le numérique freine l'innovation", "Le numérique supprime toute concurrence", "Le numérique élimine toutes les barrières juridiques"], answer:0, explanation:"Le numérique réduit les coûts et délais d'innovation (prototypage, A/B testing), favorise l'innovation ouverte et l'innovation incrémentale rapide."},
+  {theme:4, tag:"Transformation digitale", q:"La transformation digitale d'une entreprise consiste à :", options:["Acheter quelques ordinateurs neufs", "Créer un site web vitrine simple", "Repenser ses processus et son modèle d'affaires", "Embaucher un seul informaticien"], answer:2, explanation:"La transformation digitale est une démarche stratégique globale touchant les processus, l'organisation, la culture, la relation client et le business model."}
+];
+
+// ================ INIT QUIZ ================
+const container = document.getElementById('quiz-container');
+let userAnswers = {};
+let currentFilter = 'all';
+
+function renderQuiz() {
+    container.innerHTML = '';
+    const t3 = questions.filter(q => q.theme === 3);
+    const t4 = questions.filter(q => q.theme === 4);
+
+    if (currentFilter === 'all' || currentFilter === '3') {
+        const h = document.createElement('div');
+        h.className = 'theme-header';
+        h.innerHTML = '<div class="theme-num">Thème 03</div><div class="theme-title">L\'organisation de l\'activité de l\'entreprise</div>';
+        container.appendChild(h);
+        t3.forEach((q, i) => container.appendChild(buildCard(q, i + 1)));
+    }
+    if (currentFilter === 'all' || currentFilter === '4') {
+        const h = document.createElement('div');
+        h.className = 'theme-header';
+        h.innerHTML = '<div class="theme-num">Thème 04</div><div class="theme-title">L\'impact du numérique sur la vie de l\'entreprise</div>';
+        container.appendChild(h);
+        t4.forEach((q, i) => container.appendChild(buildCard(q, i + 1)));
+    }
+    updateStats();
+}
+
+function buildCard(q, num) {
+    const idx = questions.indexOf(q);
+    const card = document.createElement('div');
+    card.className = 'question';
+    card.dataset.idx = idx;
+
+    const meta = document.createElement('div');
+    meta.className = 'q-meta';
+    meta.innerHTML = `<span class="q-num">Question ${num}</span><span class="q-tag">${q.tag}</span>`;
+    card.appendChild(meta);
+
+    const text = document.createElement('div');
+    text.className = 'q-text';
+    text.textContent = q.q;
+    card.appendChild(text);
+
+    const opts = document.createElement('div');
+    opts.className = 'options';
+    const letters = ['A', 'B', 'C', 'D'];
+    q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option';
+        btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span class="option-text">${opt}</span>`;
+        btn.onclick = () => answerQuestion(idx, i, card);
+        opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+
+    const exp = document.createElement('div');
+    exp.className = 'explanation';
+    exp.innerHTML = `<strong>Explication</strong>${q.explanation}`;
+    card.appendChild(exp);
+
+    if (userAnswers[idx] !== undefined) {
+        applyAnswerVisual(card, idx, userAnswers[idx]);
+    }
+    return card;
+}
+
+function answerQuestion(idx, choice, card) {
+    if (userAnswers[idx] !== undefined) return;
+    userAnswers[idx] = choice;
+    applyAnswerVisual(card, idx, choice);
+    updateStats();
+}
+
+function applyAnswerVisual(card, idx, choice) {
+    const q = questions[idx];
+    const opts = card.querySelectorAll('.option');
+    opts.forEach((o, i) => {
+        o.disabled = true;
+        if (i === q.answer) o.classList.add('correct');
+        if (i === choice && i !== q.answer) o.classList.add('incorrect');
+    });
+    card.classList.add('answered');
+    card.classList.add(choice === q.answer ? 'correct' : 'incorrect');
+}
+
+function updateStats() {
+    const answered = Object.keys(userAnswers).length;
+    let correct = 0;
+    Object.entries(userAnswers).forEach(([idx, choice]) => {
+        if (questions[idx].answer === choice) correct++;
+    });
+    document.getElementById('answered').textContent = answered;
+    document.getElementById('correct-count').textContent = correct;
+    document.getElementById('incorrect-count').textContent = answered - correct;
+    document.getElementById('progress').style.width = (answered / 100 * 100) + '%';
+
+    const final = document.getElementById('final');
+    if (answered === 100) {
+        final.classList.add('show');
+        const pct = Math.round(correct / 100 * 100);
+        document.getElementById('final-score').textContent = `${correct} / 100 (${pct} %)`;
+        let comment = '';
+        if (pct >= 85) comment = "Excellent — niveau remarquable, prêt pour l'épreuve.";
+        else if (pct >= 70) comment = "Très bien — une bonne maîtrise du référentiel.";
+        else if (pct >= 50) comment = "Honorable — révisez les points manqués pour consolider.";
+        else comment = "À retravailler — reprenez les notions et explications point par point.";
+        document.getElementById('final-comment').textContent = comment;
+    } else {
+        final.classList.remove('show');
+    }
+}
+
+// ================ FILTRES & RESET ================
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        renderQuiz();
+    });
+});
+
+document.getElementById('reset').addEventListener('click', () => {
+    if (confirm('Réinitialiser toutes vos réponses ?')) {
+        userAnswers = {};
+        renderQuiz();
+    }
+});
+
+renderQuiz();
+</script>
+</body>
+</html>
