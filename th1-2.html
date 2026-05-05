@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz CEJM — Thèmes 1 & 2 — BTS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #f4ede0;
+    --bg-paper: #fbf6ec;
+    --ink: #1a2238;
+    --ink-soft: #4a5468;
+    --accent: #c84b31;
+    --accent-2: #d4a017;
+    --good: #2d6a4f;
+    --bad: #9b2226;
+    --line: #1a2238;
+    --shadow: 4px 4px 0 var(--ink);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Manrope', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(200, 75, 49, 0.04) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(212, 160, 23, 0.05) 0%, transparent 40%);
+}
+.container { max-width: 980px; margin: 0 auto; padding: 40px 24px 80px; }
+
+/* ================ HEADER ================ */
+header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 28px;
+    margin-bottom: 36px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+}
+.eyebrow {
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 144;
+}
+h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+}
+.subtitle {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-top: 12px;
+    max-width: 520px;
+}
+.badge {
+    background: var(--ink);
+    color: var(--bg-paper);
+    font-family: 'Fraunces', serif;
+    font-size: 13px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+/* ================ DASHBOARD ================ */
+.dashboard {
+    background: var(--bg-paper);
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 24px;
+    align-items: center;
+}
+.progress-block .label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background: rgba(26, 34, 56, 0.1);
+    border: 1px solid var(--ink);
+    overflow: hidden;
+    position: relative;
+}
+.progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.4s ease;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 6px, rgba(0,0,0,0.08) 6px, rgba(0,0,0,0.08) 12px);
+}
+.progress-text {
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 500;
+}
+.stat {
+    text-align: center;
+    border-left: 1px solid rgba(26, 34, 56, 0.2);
+    padding-left: 24px;
+}
+.stat .label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+}
+.stat .value {
+    font-family: 'Fraunces', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-top: 4px;
+    font-variation-settings: "opsz" 144;
+}
+.stat.score .value { color: var(--good); }
+.stat.errors .value { color: var(--bad); }
+
+/* ================ FILTRES ================ */
+.filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.filter-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+    margin-right: 8px;
+}
+.filter-btn {
+    background: var(--bg-paper);
+    border: 1.5px solid var(--ink);
+    padding: 8px 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--ink);
+}
+.filter-btn:hover { background: var(--ink); color: var(--bg-paper); }
+.filter-btn.active {
+    background: var(--ink);
+    color: var(--bg-paper);
+    box-shadow: 2px 2px 0 var(--accent);
+}
+.reset-btn {
+    margin-left: auto;
+    background: transparent;
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
+    padding: 8px 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+.reset-btn:hover { background: var(--accent); color: var(--bg-paper); }
+
+/* ================ THEME HEADER ================ */
+.theme-header {
+    margin: 48px 0 24px;
+    padding: 16px 0;
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+}
+.theme-header:first-of-type { margin-top: 0; }
+.theme-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+.theme-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.7rem;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-top: 4px;
+    font-variation-settings: "opsz" 144;
+}
+
+/* ================ QUESTION CARD ================ */
+.question {
+    background: var(--bg-paper);
+    border: 1.5px solid var(--ink);
+    padding: 28px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s, transform 0.3s;
+    position: relative;
+}
+.question.answered { box-shadow: 3px 3px 0 var(--ink); }
+.question.correct {
+    border-color: var(--good);
+    box-shadow: 3px 3px 0 var(--good);
+}
+.question.incorrect {
+    border-color: var(--bad);
+    box-shadow: 3px 3px 0 var(--bad);
+}
+.q-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+}
+.q-num {
+    background: var(--ink);
+    color: var(--bg-paper);
+    padding: 4px 10px;
+    border-radius: 2px;
+}
+.q-tag {
+    color: var(--accent);
+    font-weight: 600;
+}
+.q-text {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    color: var(--ink);
+    font-variation-settings: "opsz" 24;
+}
+.options { display: grid; gap: 10px; }
+.option {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 1px solid rgba(26, 34, 56, 0.3);
+    background: var(--bg);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+    font-family: 'Manrope', sans-serif;
+    color: var(--ink);
+    width: 100%;
+}
+.option:hover:not(:disabled) {
+    border-color: var(--ink);
+    background: var(--bg-paper);
+    transform: translateX(2px);
+}
+.option:disabled { cursor: default; }
+.option-letter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    background: var(--ink);
+    color: var(--bg-paper);
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 13px;
+    flex-shrink: 0;
+    border-radius: 50%;
+}
+.option.correct {
+    background: rgba(45, 106, 79, 0.12);
+    border-color: var(--good);
+    border-width: 2px;
+}
+.option.correct .option-letter { background: var(--good); }
+.option.incorrect {
+    background: rgba(155, 34, 38, 0.1);
+    border-color: var(--bad);
+    border-width: 2px;
+}
+.option.incorrect .option-letter { background: var(--bad); }
+.option-text { flex: 1; padding-top: 2px; }
+
+/* ================ EXPLICATION ================ */
+.explanation {
+    margin-top: 18px;
+    padding: 16px 18px;
+    background: var(--bg);
+    border-left: 3px solid var(--accent-2);
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    display: none;
+    animation: slideIn 0.3s ease;
+}
+.question.answered .explanation { display: block; }
+.explanation strong {
+    font-family: 'Fraunces', serif;
+    color: var(--ink);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================ FOOTER FINAL ================ */
+.final-message {
+    text-align: center;
+    margin-top: 60px;
+    padding: 40px 24px;
+    background: var(--ink);
+    color: var(--bg-paper);
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow);
+    display: none;
+}
+.final-message.show { display: block; }
+.final-message h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    font-variation-settings: "opsz" 144;
+}
+.final-message p { font-size: 16px; opacity: 0.85; }
+.final-message .accent { color: var(--accent-2); font-weight: 600; }
+
+/* ================ RESPONSIVE ================ */
+@media (max-width: 720px) {
+    header { grid-template-columns: 1fr; }
+    .dashboard { grid-template-columns: 1fr; gap: 16px; }
+    .stat { border-left: none; border-top: 1px solid rgba(26, 34, 56, 0.2); padding-left: 0; padding-top: 16px; }
+    .filters { flex-direction: column; align-items: stretch; }
+    .reset-btn { margin-left: 0; margin-top: 8px; }
+    .question { padding: 20px; }
+    .q-text { font-size: 1.05rem; }
+    .container { padding: 24px 16px 60px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+    <div>
+        <div class="eyebrow">Culture Économique, Juridique & Managériale</div>
+        <h1>Quiz <em>CEJM</em></h1>
+        <p class="subtitle">100 questions QCM — Thèmes 1 & 2 du référentiel BTS — Niveau Bac+2</p>
+    </div>
+    <div class="badge">Session BTS · 100 QCM</div>
+</header>
+
+<div class="dashboard">
+    <div class="progress-block">
+        <div class="label">Progression</div>
+        <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+        <div class="progress-text"><span id="answered">0</span> / <span id="total">100</span> questions répondues</div>
+    </div>
+    <div class="stat score">
+        <div class="label">Bonnes réponses</div>
+        <div class="value" id="correct-count">0</div>
+    </div>
+    <div class="stat errors">
+        <div class="label">Erreurs</div>
+        <div class="value" id="incorrect-count">0</div>
+    </div>
+</div>
+
+<div class="filters">
+    <span class="filter-label">Filtrer :</span>
+    <button class="filter-btn active" data-filter="all">Toutes (100)</button>
+    <button class="filter-btn" data-filter="1">Thème 1 (50)</button>
+    <button class="filter-btn" data-filter="2">Thème 2 (50)</button>
+    <button class="reset-btn" id="reset">↺ Réinitialiser</button>
+</div>
+
+<div id="quiz-container"></div>
+
+<div class="final-message" id="final">
+    <h2>Quiz terminé</h2>
+    <p>Score final : <span class="accent" id="final-score">—</span></p>
+    <p style="margin-top: 8px;" id="final-comment"></p>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  // ============ THÈME 1 ============
+  // -- Agents économiques, marché --
+  { theme: 1, tag: "Agents économiques", q: "Que sont les agents économiques selon la comptabilité nationale ?", options: ["Des personnes physiques uniquement", "Des entités regroupées selon leur fonction économique principale", "Uniquement les entreprises et l'État", "Des consommateurs et producteurs au sens commercial"], answer: 1, explanation: "Les agents économiques sont des entités (individuelles ou collectives) regroupées selon leur fonction principale : ménages (consommer), sociétés non financières (produire), sociétés financières (financer), administrations publiques, ISBLSM, reste du monde." },
+  { theme: 1, tag: "Agents économiques", q: "Quelle est la fonction principale des ménages ?", options: ["Produire des biens marchands", "Consommer et fournir des facteurs de production (travail, épargne)", "Créer de la monnaie", "Redistribuer les revenus"], answer: 1, explanation: "Les ménages assurent la consommation finale et fournissent les facteurs de production (travail, épargne)." },
+  { theme: 1, tag: "Marché", q: "Qu'est-ce qu'un marché en économie ?", options: ["Un lieu physique où s'échangent des biens", "Le lieu (physique ou non) de rencontre entre l'offre et la demande", "Une institution publique de régulation", "Une entreprise commerciale"], answer: 1, explanation: "Un marché est le lieu (physique ou virtuel) de rencontre entre une offre et une demande aboutissant à la fixation d'un prix d'équilibre." },
+  { theme: 1, tag: "Loi de la demande", q: "La loi de la demande indique que :", options: ["Quand le prix augmente, la demande augmente", "Quand le prix augmente, la demande diminue (toutes choses égales par ailleurs)", "La demande est indépendante du prix", "La demande dépend uniquement de l'offre"], answer: 1, explanation: "Selon la loi de la demande, la quantité demandée varie en sens inverse du prix, ceteris paribus." },
+  { theme: 1, tag: "Loi de l'offre", q: "Selon la loi de l'offre :", options: ["Quand le prix augmente, l'offre diminue", "Quand le prix augmente, l'offre augmente", "L'offre est indépendante du prix", "L'offre dépend uniquement de la demande"], answer: 1, explanation: "Selon la loi de l'offre, plus le prix est élevé, plus les producteurs sont incités à produire et à offrir." },
+  { theme: 1, tag: "Prix d'équilibre", q: "Le prix d'équilibre correspond au prix qui :", options: ["Est imposé par l'État", "Est calculé en moyenne sur le marché", "Égalise les quantités offertes et demandées", "Est le maximum acceptable"], answer: 2, explanation: "Le prix d'équilibre est celui pour lequel la quantité offerte est égale à la quantité demandée." },
+  { theme: 1, tag: "Élasticité", q: "L'élasticité-prix de la demande mesure :", options: ["La sensibilité de la quantité demandée aux variations de prix", "Le prix moyen d'un produit", "La quantité totale demandée", "Le coût de production"], answer: 0, explanation: "Elle mesure le pourcentage de variation de la quantité demandée pour 1 % de variation du prix. Elle est généralement négative." },
+  { theme: 1, tag: "Structures de marché", q: "Un marché avec un seul vendeur face à de nombreux acheteurs est :", options: ["Une concurrence pure et parfaite", "Un oligopole", "Un monopole", "Un monopsone"], answer: 2, explanation: "Le monopole est une structure caractérisée par un offreur unique. À l'inverse, le monopsone est un marché à un seul acheteur." },
+  { theme: 1, tag: "Structures de marché", q: "Un oligopole est caractérisé par :", options: ["Un seul vendeur", "Un petit nombre de vendeurs face à de nombreux acheteurs", "Une infinité de vendeurs", "Un seul acheteur"], answer: 1, explanation: "L'oligopole se caractérise par un nombre limité d'offreurs (au moins deux) face à une demande nombreuse." },
+  { theme: 1, tag: "CPP", q: "La concurrence pure et parfaite (CPP) repose sur cinq conditions, lesquelles ?", options: ["Atomicité, homogénéité, libre entrée/sortie, transparence, mobilité des facteurs", "Prix élevés, qualité, marketing, distribution, exportation", "Innovation, brevets, monopole, taille, image", "Demande, offre, prix, profit, État"], answer: 0, explanation: "Les 5 conditions théoriques sont : atomicité du marché, homogénéité du produit, libre entrée et sortie, transparence de l'information, mobilité parfaite des facteurs de production." },
+  { theme: 1, tag: "Barrières à l'entrée", q: "Une barrière à l'entrée correspond à :", options: ["Une réglementation fiscale", "Un obstacle empêchant ou rendant difficile l'entrée de nouveaux concurrents", "Une frontière douanière", "Une obligation comptable"], answer: 1, explanation: "Les barrières à l'entrée (économies d'échelle, brevets, capitaux requis, image, réglementation) protègent les entreprises en place de l'arrivée de nouveaux entrants." },
+  { theme: 1, tag: "Asymétrie d'information", q: "L'asymétrie d'information désigne :", options: ["Une situation où les agents disposent d'informations différentes lors d'un échange", "Une publicité mensongère", "Une concurrence déloyale", "Une transparence parfaite"], answer: 0, explanation: "L'asymétrie d'information caractérise une situation où une partie dispose d'informations que l'autre n'a pas, créant des dysfonctionnements (sélection adverse, aléa moral)." },
+  { theme: 1, tag: "Sélection adverse", q: "La sélection adverse (anti-sélection) désigne un phénomène :", options: ["D'asymétrie d'information AVANT la conclusion du contrat", "D'asymétrie d'information APRÈS la conclusion du contrat", "De concurrence parfaite", "De fraude fiscale"], answer: 0, explanation: "Théorisée par G. Akerlof (« Market for Lemons »), la sélection adverse intervient avant la transaction : la partie la mieux informée évince les moins bons profils du marché." },
+  { theme: 1, tag: "Aléa moral", q: "L'aléa moral correspond à :", options: ["Un comportement opportuniste APRÈS la signature d'un contrat", "Une éthique professionnelle", "Une responsabilité civile", "Une faute pénale"], answer: 0, explanation: "L'aléa moral désigne le changement de comportement opportuniste d'une partie après la conclusion du contrat, l'autre ne pouvant l'observer." },
+  { theme: 1, tag: "Externalités", q: "Une externalité positive correspond à :", options: ["Un bénéfice non rémunéré procuré à un tiers par l'activité d'un agent", "Un bénéfice réalisé par une entreprise", "Un paiement reçu pour un service", "Une qualité supérieure d'un produit"], answer: 0, explanation: "Une externalité positive est un effet bénéfique de l'activité d'un agent sur un tiers, sans contrepartie monétaire. Ex : recherche fondamentale, vaccination, formation." },
+  { theme: 1, tag: "Externalités", q: "Une externalité négative se caractérise par :", options: ["Une perte d'entreprise", "Un préjudice subi par un tiers du fait de l'activité d'un agent, sans compensation", "Un produit défectueux", "Une rupture contractuelle"], answer: 1, explanation: "Une externalité négative est un coût supporté par un tiers du fait de l'activité d'un autre agent, sans compensation. Ex : pollution, nuisances sonores." },
+  { theme: 1, tag: "Banques", q: "Quel est le rôle principal des banques commerciales ?", options: ["Émettre les billets de banque", "Collecter les dépôts, accorder des crédits et participer à la création monétaire", "Fixer les taux de change", "Lever l'impôt"], answer: 1, explanation: "Les banques de second rang collectent l'épargne, accordent des crédits et participent à la création monétaire (« les crédits font les dépôts »)." },
+  { theme: 1, tag: "Marché financier", q: "Le marché financier est :", options: ["Le marché des biens et services", "Le marché des capitaux à long terme (actions, obligations)", "Le marché du travail", "Le marché des changes (devises)"], answer: 1, explanation: "Le marché financier confronte les offreurs et demandeurs de capitaux à long terme. S'y échangent des valeurs mobilières (actions, obligations)." },
+  { theme: 1, tag: "Marché financier", q: "Une action représente :", options: ["Un titre de créance", "Un titre de propriété d'une fraction du capital d'une société", "Un emprunt obligataire", "Un placement bancaire garanti"], answer: 1, explanation: "L'action est un titre de propriété représentant une fraction du capital d'une société, donnant droit aux dividendes et au vote en AG." },
+  { theme: 1, tag: "Marché financier", q: "Une obligation est :", options: ["Un titre de propriété", "Un titre de créance représentant une part d'emprunt émis par une entité", "Une action préférentielle", "Une garantie bancaire"], answer: 1, explanation: "L'obligation est un titre de créance représentant une part d'un emprunt émis par une entreprise, l'État ou une collectivité, rémunéré par un intérêt." },
+
+  // -- Contrats --
+  { theme: 1, tag: "Définition contrat", q: "Selon l'article 1101 du Code civil, le contrat est :", options: ["Un acte unilatéral", "Un accord de volontés destiné à créer, modifier, transmettre ou éteindre des obligations", "Un texte de loi", "Une décision de justice"], answer: 1, explanation: "Article 1101 : « Le contrat est un accord de volontés entre deux ou plusieurs personnes destiné à créer, modifier, transmettre ou éteindre des obligations. »" },
+  { theme: 1, tag: "Principes contractuels", q: "Le principe d'autonomie de la volonté signifie que :", options: ["Les parties sont libres de contracter et de fixer le contenu du contrat", "Le juge fixe le contenu du contrat", "L'État impose les contrats", "Les parties sont obligées de contracter"], answer: 0, explanation: "L'autonomie de la volonté (et la liberté contractuelle) permet aux parties de choisir librement de contracter, leur cocontractant et le contenu, dans les limites de l'ordre public." },
+  { theme: 1, tag: "Validité", q: "Quelles sont les trois conditions de validité d'un contrat (article 1128 C. civ.) ?", options: ["Écrit, signé, daté", "Consentement, capacité, contenu licite et certain", "Objet, prix, livraison", "Cause, consentement, prix"], answer: 1, explanation: "Article 1128 (depuis 2016) : 1° le consentement, 2° la capacité de contracter, 3° un contenu licite et certain." },
+  { theme: 1, tag: "Vices du consentement", q: "Quels sont les vices du consentement ?", options: ["Erreur, dol, violence", "Erreur, fraude, mensonge", "Dol, ignorance, faute", "Erreur, négligence, abus"], answer: 0, explanation: "Trois vices entachent le consentement : l'erreur, le dol (manœuvres frauduleuses), la violence (contrainte physique ou morale)." },
+  { theme: 1, tag: "Dol", q: "Le dol est :", options: ["Une simple erreur", "Une manœuvre frauduleuse destinée à tromper une partie pour obtenir son consentement", "Une menace physique", "Un défaut de capacité"], answer: 1, explanation: "Article 1137 : le dol est le fait pour un contractant d'obtenir le consentement de l'autre par des manœuvres ou mensonges, ou par dissimulation intentionnelle d'une information déterminante." },
+  { theme: 1, tag: "Force obligatoire", q: "La force obligatoire du contrat (art. 1103) signifie :", options: ["Que le contrat peut être résilié à tout moment", "Que les contrats légalement formés tiennent lieu de loi à ceux qui les ont faits", "Que le contrat est imposé par le juge", "Que le contrat est annulable librement"], answer: 1, explanation: "Article 1103 : « Les contrats légalement formés tiennent lieu de loi à ceux qui les ont faits. » Principe du pacta sunt servanda." },
+  { theme: 1, tag: "Effet relatif", q: "L'effet relatif du contrat (art. 1199) signifie :", options: ["Que le contrat s'impose à tous", "Que le contrat ne crée d'obligations qu'entre les parties contractantes", "Que le contrat est temporaire", "Que le contrat dépend des circonstances"], answer: 1, explanation: "Article 1199 : le contrat ne crée d'obligations qu'entre les parties. Il ne nuit ni ne profite aux tiers (sauf exceptions : stipulation pour autrui...)." },
+  { theme: 1, tag: "Types de contrats", q: "Un contrat synallagmatique est un contrat :", options: ["Où une seule partie est obligée", "Où les parties s'engagent réciproquement les unes envers les autres", "À titre gratuit", "Sans contrepartie"], answer: 1, explanation: "Le contrat synallagmatique (ou bilatéral) crée des obligations réciproques (ex : vente, bail, contrat de travail). À l'opposé, le contrat unilatéral n'oblige qu'une partie (ex : donation)." },
+  { theme: 1, tag: "Types de contrats", q: "Un contrat d'adhésion est :", options: ["Un contrat librement négocié", "Un contrat dont les conditions sont déterminées à l'avance par une partie sans négociation", "Un contrat verbal", "Un contrat international"], answer: 1, explanation: "Article 1110 : le contrat d'adhésion comporte un ensemble de clauses non négociables, déterminées à l'avance par l'une des parties (ex : abonnement, transport)." },
+  { theme: 1, tag: "Clause abusive", q: "Une clause abusive en droit de la consommation est :", options: ["Toute clause sur le prix", "Une clause créant un déséquilibre significatif au détriment du consommateur", "Une clause sur la durée", "Une clause obligatoire"], answer: 1, explanation: "Le Code de la consommation répute non écrites les clauses créant un déséquilibre significatif entre les droits et obligations au détriment du non-professionnel ou consommateur." },
+  { theme: 1, tag: "Phase précontractuelle", q: "La phase précontractuelle est encadrée par :", options: ["Une obligation de bonne foi et d'information", "Aucune règle juridique", "Le seul accord oral", "Le code pénal"], answer: 0, explanation: "Articles 1112 et 1112-1 : les négociations doivent être menées de bonne foi, et chaque partie doit informer l'autre des éléments déterminants du consentement." },
+  { theme: 1, tag: "Formation du contrat", q: "L'offre et l'acceptation forment :", options: ["La rencontre des consentements et donc le contrat", "Un simple projet", "Une obligation morale", "Une promesse non engageante"], answer: 0, explanation: "Article 1113 : le contrat se forme par la rencontre d'une offre (précise et ferme) et d'une acceptation, manifestation de la volonté de s'engager." },
+  { theme: 1, tag: "Capacité", q: "La capacité de contracter concerne :", options: ["L'aptitude à conclure un contrat valablement (majeurs non protégés notamment)", "Les ressources financières", "Le diplôme", "L'expérience professionnelle"], answer: 0, explanation: "Article 1145 : toute personne physique peut contracter sauf incapacité prévue par la loi (mineurs, majeurs sous tutelle/curatelle). Les personnes morales contractent dans la limite de leur objet social." },
+  { theme: 1, tag: "Contenu", q: "Le contenu du contrat doit être :", options: ["Licite et certain", "Toujours rédigé en français", "Notarié", "Approuvé par l'État"], answer: 0, explanation: "Article 1128 : le contenu doit être licite (non contraire à l'ordre public et aux bonnes mœurs) et certain (déterminé ou déterminable)." },
+  // -- Finalités, parties prenantes, performance --
+  { theme: 1, tag: "Définition entreprise", q: "Une entreprise peut être définie comme :", options: ["Une organisation combinant des facteurs de production pour produire et vendre des biens ou services", "Un simple groupe de salariés", "Un service public", "Une association à but non lucratif"], answer: 0, explanation: "L'entreprise est une organisation autonome qui combine des facteurs de production (travail, capital) pour produire et vendre des biens ou services sur un marché." },
+  { theme: 1, tag: "Finalités", q: "La finalité économique principale d'une entreprise est :", options: ["Distribuer des aides", "Produire des biens/services et générer un profit pour assurer sa pérennité", "Gérer les services publics", "Réguler le marché"], answer: 1, explanation: "La finalité économique vise la production de richesse, la rentabilité, la pérennité et la croissance de l'entreprise." },
+  { theme: 1, tag: "Drucker", q: "Selon Peter Drucker, la finalité première d'une entreprise est :", options: ["De réaliser un profit maximal", "De créer et conserver une clientèle", "De rémunérer ses actionnaires", "De payer des impôts"], answer: 1, explanation: "Pour P. Drucker : « la finalité de l'entreprise est de créer et de conserver une clientèle ». Le profit est une condition de survie, pas une finalité en soi." },
+  { theme: 1, tag: "Finalités", q: "La finalité sociétale d'une entreprise renvoie à :", options: ["Sa contribution au bien-être collectif et au développement durable", "Son chiffre d'affaires", "Le bien-être de ses seuls salariés", "Ses parts de marché"], answer: 0, explanation: "La finalité sociétale concerne la responsabilité de l'entreprise envers la société : protection de l'environnement, éthique, RSE." },
+  { theme: 1, tag: "Parties prenantes", q: "Selon E. Freeman, une partie prenante (stakeholder) est :", options: ["Un actionnaire uniquement", "Tout individu ou groupe qui peut affecter ou être affecté par l'activité de l'entreprise", "Un client fidèle", "Un fournisseur exclusif"], answer: 1, explanation: "Définition de R.E. Freeman (1984) : « tout individu ou groupe qui peut affecter ou être affecté par la réalisation des objectifs de l'organisation »." },
+  { theme: 1, tag: "Parties prenantes", q: "Lesquels sont des parties prenantes internes ?", options: ["Clients et fournisseurs", "Salariés, dirigeants et actionnaires", "État et ONG", "Concurrents"], answer: 1, explanation: "Les PP internes sont intégrées à l'entreprise (actionnaires, dirigeants, salariés) ; les externes sont à l'extérieur (clients, fournisseurs, État, ONG, concurrents...)." },
+  { theme: 1, tag: "Schumpeter", q: "Selon J. Schumpeter, la logique entrepreneuriale repose sur :", options: ["La prudence et la stabilité", "L'innovation et la prise de risque", "L'application stricte des procédures", "La rente de monopole"], answer: 1, explanation: "Schumpeter caractérise l'entrepreneur par sa capacité à innover et prendre des risques. C'est le moteur de la « destruction créatrice » et de la dynamique capitaliste." },
+  { theme: 1, tag: "Logique managériale", q: "La logique managériale, selon Drucker, consiste à :", options: ["Optimiser et organiser les ressources existantes pour atteindre des objectifs", "Refuser toute innovation", "Rechercher systématiquement le risque", "S'opposer à l'entrepreneur"], answer: 0, explanation: "La logique managériale est celle du gestionnaire : organiser, planifier, optimiser les ressources existantes pour atteindre les objectifs fixés (P. Drucker)." },
+  { theme: 1, tag: "Création", q: "La première étape de création d'une entreprise est :", options: ["L'immatriculation au RCS", "L'idée et l'étude de marché", "Le recrutement", "La publicité"], answer: 1, explanation: "Le processus débute par l'idée, validée via l'étude de marché ; viennent ensuite le business plan, le choix de la structure juridique, les démarches administratives et l'immatriculation." },
+  { theme: 1, tag: "Business plan", q: "Le business plan est :", options: ["Un document comptable obligatoire", "Un document présentant le projet d'entreprise et démontrant sa viabilité", "Un contrat de travail", "Un plan marketing seulement"], answer: 1, explanation: "Le business plan présente le projet (étude de marché, stratégie, plan financier, organisation). Il vise à convaincre banques et investisseurs." },
+  { theme: 1, tag: "Performance", q: "La performance d'une entreprise se définit comme :", options: ["La capacité à atteindre ses objectifs en optimisant ses ressources", "Le seul résultat financier", "Le chiffre d'affaires", "Les parts de marché uniquement"], answer: 0, explanation: "La performance combine efficacité (atteinte des objectifs) et efficience (avec un minimum de ressources). Elle est multidimensionnelle." },
+  { theme: 1, tag: "Performance", q: "La distinction entre efficacité et efficience est :", options: ["Efficacité = atteindre l'objectif ; Efficience = atteindre l'objectif en optimisant les ressources", "Ce sont des synonymes", "L'efficience concerne uniquement le financier", "L'efficacité concerne uniquement le social"], answer: 0, explanation: "Efficacité = capacité à atteindre l'objectif (résultat). Efficience = atteindre l'objectif avec un minimum de moyens (rapport résultat/ressources)." },
+  { theme: 1, tag: "Indicateurs", q: "Le ROI (Return On Investment) est :", options: ["Un indicateur commercial", "Un indicateur financier mesurant la rentabilité d'un investissement", "Un indicateur social", "Un indicateur environnemental"], answer: 1, explanation: "ROI = (Résultat / Investissement) × 100. C'est un indicateur de rentabilité d'un investissement, mesurant l'efficience financière." },
+  { theme: 1, tag: "RSE", q: "La RSE (Responsabilité Sociétale des Entreprises) correspond à :", options: ["L'intégration volontaire des préoccupations sociales et environnementales", "Une obligation fiscale", "Une certification qualité technique", "Un statut juridique"], answer: 0, explanation: "Définition UE : la RSE est l'intégration volontaire par les entreprises de préoccupations sociales et environnementales à leurs activités et leurs relations avec les parties prenantes." },
+  { theme: 1, tag: "Triple bottom line", q: "Le « triple bottom line » (J. Elkington) repose sur :", options: ["Profit, People, Planet (économique, social, environnemental)", "Production, Prix, Promotion", "Politique, Public, Privé", "Pertes, Profits, Provisions"], answer: 0, explanation: "Théorisé par J. Elkington (1997), le triple bottom line évalue la performance selon trois piliers : économique, social, environnemental." },
+  { theme: 1, tag: "Indicateurs sociaux", q: "Un indicateur de performance sociale est :", options: ["Le résultat net", "Le taux de turn-over et l'absentéisme", "Le chiffre d'affaires", "Le BPA (bénéfice par action)"], answer: 1, explanation: "Les indicateurs sociaux : turn-over, absentéisme, accidents du travail, taux de formation, climat social, parité, diversité." },
+
+  // ============ THÈME 2 ============
+  // -- Rôle de l'État, politiques économiques --
+  { theme: 2, tag: "Musgrave", q: "Selon R. Musgrave, quelles sont les trois fonctions économiques de l'État ?", options: ["Production, distribution, consommation", "Allocation, redistribution, stabilisation", "Législation, exécution, jugement", "Investissement, épargne, consommation"], answer: 1, explanation: "R. Musgrave (1959) distingue trois fonctions : allocation (biens publics, défaillances de marché), redistribution (réduction des inégalités), stabilisation/régulation (lutte contre inflation et chômage)." },
+  { theme: 2, tag: "Allocation", q: "La fonction d'allocation de l'État consiste à :", options: ["Verser des prestations sociales", "Produire des biens publics et corriger les défaillances de marché", "Lutter contre l'inflation", "Distribuer des dividendes"], answer: 1, explanation: "L'allocation des ressources vise à fournir des biens publics (défense, justice, infrastructures) et à corriger les défaillances (externalités, asymétries, biens publics)." },
+  { theme: 2, tag: "Redistribution", q: "La fonction de redistribution vise à :", options: ["Répartir le PIB entre régions", "Réduire les inégalités de revenus et de patrimoine via la fiscalité et les transferts sociaux", "Allouer les ressources naturelles", "Augmenter les bénéfices des entreprises"], answer: 1, explanation: "Via la fiscalité progressive et les prestations sociales, la redistribution corrige la répartition primaire des revenus pour réduire les inégalités." },
+  { theme: 2, tag: "PIB", q: "Le PIB (Produit Intérieur Brut) mesure :", options: ["Le revenu des ménages", "La somme des valeurs ajoutées des unités résidentes sur le territoire pendant une période", "La balance commerciale", "Le bénéfice des entreprises"], answer: 1, explanation: "Le PIB est la somme des valeurs ajoutées produites par les unités résidentes (+ TVA et droits de douane). Il existe en valeur (nominal) et en volume (réel)." },
+  { theme: 2, tag: "Croissance", q: "La croissance économique se définit comme :", options: ["L'augmentation soutenue et durable du PIB réel", "L'augmentation des prix", "L'augmentation de la population", "La baisse du chômage"], answer: 0, explanation: "F. Perroux : « augmentation soutenue durant une ou plusieurs périodes longues d'un indicateur de dimension : pour une nation, le produit global net en termes réels »." },
+  { theme: 2, tag: "PIB nominal/réel", q: "La distinction entre PIB nominal et PIB réel est :", options: ["PIB nominal aux prix courants, PIB réel aux prix constants (corrigé de l'inflation)", "PIB nominal = national, PIB réel = régional", "Aucune différence", "PIB nominal = privé, PIB réel = public"], answer: 0, explanation: "Le PIB nominal est calculé aux prix de l'année courante. Le PIB réel est calculé aux prix constants d'une année de référence, ce qui élimine l'effet de l'inflation." },
+  { theme: 2, tag: "Inflation", q: "L'inflation est :", options: ["Une baisse généralisée des prix", "Une hausse généralisée et durable du niveau général des prix", "Une augmentation des seuls salaires", "Une dévaluation"], answer: 1, explanation: "L'INSEE définit l'inflation comme la hausse généralisée et durable du niveau général des prix. Elle se mesure via l'IPC (Indice des Prix à la Consommation)." },
+  { theme: 2, tag: "Déflation", q: "La déflation est :", options: ["Une hausse modérée des prix", "Une baisse généralisée et durable des prix", "Un ralentissement de l'inflation", "Une stabilité des prix"], answer: 1, explanation: "La déflation est une baisse durable et généralisée des prix. À ne pas confondre avec la désinflation (ralentissement de la hausse des prix)." },
+  { theme: 2, tag: "Chômage BIT", q: "Selon le BIT, un chômeur est une personne :", options: ["Sans emploi uniquement", "Sans emploi, disponible et qui recherche activement un emploi", "Inscrite à Pôle emploi uniquement", "À temps partiel"], answer: 1, explanation: "Selon le BIT, un chômeur est en âge de travailler (15 ans+), sans emploi, disponible dans les 2 semaines, et a effectué des démarches actives de recherche dans le mois précédent." },
+  { theme: 2, tag: "Chômage", q: "Le chômage structurel est dû à :", options: ["La conjoncture économique", "Des inadéquations durables (qualifications, géographie, mutations sectorielles)", "La saisonnalité", "Un choix individuel"], answer: 1, explanation: "Le chômage structurel résulte de déséquilibres durables (inadéquation qualifications/postes, rigidités, mutations technologiques), à la différence du chômage conjoncturel lié au cycle." },
+  { theme: 2, tag: "Carré magique", q: "Le carré magique de N. Kaldor représente :", options: ["Quatre objectifs : croissance, plein-emploi, stabilité des prix, équilibre extérieur", "Quatre formes de marché", "Quatre styles de management", "Quatre étapes de production"], answer: 0, explanation: "N. Kaldor (1971) représente sous forme de losange les 4 grands objectifs de politique économique : taux de croissance élevé, faible inflation, faible chômage, équilibre extérieur." },
+  { theme: 2, tag: "Politiques", q: "Une politique conjoncturelle vise :", options: ["Le court terme (lutte contre l'inflation, le chômage, les déséquilibres)", "Le long terme via des réformes structurelles", "La stratégie d'entreprise", "La politique étrangère"], answer: 0, explanation: "Les politiques conjoncturelles agissent à court terme sur la demande pour corriger les déséquilibres. Elles utilisent les politiques budgétaire et monétaire." },
+  { theme: 2, tag: "Politiques", q: "Une politique structurelle vise :", options: ["Le court terme uniquement", "À long terme à modifier les structures de l'économie (concurrence, marché du travail, formation, R&D)", "Uniquement les entreprises publiques", "Le commerce extérieur seul"], answer: 1, explanation: "Les politiques structurelles modifient durablement les structures de l'économie : marché du travail, concurrence, R&D, éducation, infrastructures, fiscalité." },
+  { theme: 2, tag: "Politique budgétaire", q: "La politique budgétaire utilise :", options: ["Le taux d'intérêt directeur", "Les recettes (impôts) et dépenses publiques pour agir sur l'activité", "Le taux de change", "La masse monétaire"], answer: 1, explanation: "La politique budgétaire mobilise les recettes (fiscalité) et les dépenses publiques pour influencer la demande globale (relance/rigueur)." },
+  { theme: 2, tag: "Politique monétaire", q: "Dans la zone euro, la politique monétaire est conduite par :", options: ["La Commission européenne", "La Banque Centrale Européenne (BCE)", "Le Conseil européen", "Chaque banque centrale nationale indépendamment"], answer: 1, explanation: "La BCE, indépendante, conduit la politique monétaire de la zone euro. Son objectif principal est la stabilité des prix (cible d'inflation : 2 % à moyen terme)." },
+  { theme: 2, tag: "BCE", q: "L'instrument principal de la BCE est :", options: ["Le taux d'intérêt directeur (taux de refinancement)", "L'impôt sur les sociétés", "Le SMIC", "Le budget européen"], answer: 0, explanation: "La BCE pilote la liquidité bancaire via les taux directeurs (taux de refi, taux de dépôt, taux marginal de prêt), les opérations d'open market et les réserves obligatoires." },
+  { theme: 2, tag: "BCE", q: "Quel est l'objectif principal de la BCE ?", options: ["Le plein-emploi", "La stabilité des prix (cible d'inflation à 2 % à moyen terme)", "La croissance du PIB", "La réduction des inégalités"], answer: 1, explanation: "Article 127 TFUE : la BCE a pour objectif principal la stabilité des prix (cible : 2 % à moyen terme depuis 2021). Les autres objectifs sont secondaires." },
+  { theme: 2, tag: "Multiplicateur", q: "Le multiplicateur keynésien indique que :", options: ["Une hausse de la dépense publique a un impact amplifié sur le PIB", "Les impôts se multiplient dans le temps", "La masse monétaire double tous les ans", "Le PIB est proportionnel à la population"], answer: 0, explanation: "Selon Keynes, une hausse de la dépense publique entraîne une hausse plus que proportionnelle du PIB via la consommation. k = 1/(1-c) où c est la propension marginale à consommer." },
+  { theme: 2, tag: "Effet d'éviction", q: "L'effet d'éviction se produit lorsque :", options: ["Les dépenses publiques évincent l'investissement privé via la hausse des taux d'intérêt", "Les exportations diminuent", "Les salariés quittent l'entreprise", "Les consommateurs réduisent leurs achats"], answer: 0, explanation: "École classique : un déficit public financé par emprunt fait monter les taux d'intérêt, ce qui décourage l'investissement privé et neutralise (en partie) l'effet de relance." },
+  { theme: 2, tag: "Laffer", q: "La courbe de Laffer suggère que :", options: ["Au-delà d'un certain seuil, la hausse des taux d'imposition fait baisser les recettes fiscales", "Les impôts sont toujours rentables", "Les recettes fiscales sont indépendantes des taux", "Plus on baisse les taux, plus on collecte d'impôts"], answer: 0, explanation: "« Trop d'impôt tue l'impôt » : au-delà d'un taux optimal, la hausse des taux décourage le travail/investissement et fait baisser les recettes (effets de désincitation et fraude)." },
+  { theme: 2, tag: "PSC", q: "Le Pacte de Stabilité et de Croissance (PSC) impose :", options: ["Un déficit public < 3 % du PIB et une dette publique < 60 % du PIB", "Un déficit > 5 %", "Aucune contrainte", "Une dette nulle"], answer: 0, explanation: "Le PSC (1997) reprend les critères de Maastricht : déficit public ≤ 3 % du PIB, dette ≤ 60 % du PIB, pour assurer la stabilité de la zone euro." },
+  { theme: 2, tag: "Politique de relance", q: "Une politique de relance keynésienne consiste à :", options: ["Réduire les dépenses publiques", "Augmenter les dépenses publiques et/ou baisser les impôts pour stimuler la demande", "Augmenter les taux d'intérêt", "Restreindre la masse monétaire"], answer: 1, explanation: "Inspirée de Keynes, la relance budgétaire stimule la demande globale par hausse des dépenses ou baisse des prélèvements, avec un effet multiplicateur sur le PIB." },
+  { theme: 2, tag: "Politique de rigueur", q: "Une politique de rigueur consiste à :", options: ["Augmenter les dépenses publiques", "Réduire les dépenses publiques et/ou augmenter les prélèvements pour assainir les comptes", "Baisser les taux d'intérêt", "Dévaluer la monnaie"], answer: 1, explanation: "La politique de rigueur (austérité) vise à réduire le déficit public par baisse des dépenses ou hausse des impôts, au prix d'un effet récessif à court terme." },
+  { theme: 2, tag: "Limites", q: "Une limite majeure de l'intervention de l'État est :", options: ["L'absence de besoin", "La dette publique, l'effet d'éviction et l'ouverture internationale qui réduisent l'efficacité des relances nationales", "L'illégalité de l'intervention", "L'opposition systématique des entreprises"], answer: 1, explanation: "Les limites incluent : contraintes budgétaires (dette, déficits), effet d'éviction, ouverture (fuites par les importations), désincitation, contraintes UE (PSC), retards d'application." },
+  { theme: 2, tag: "Régulation supranationale", q: "La régulation supranationale dans le cadre européen passe par :", options: ["Le marché unique, la politique de la concurrence, la politique monétaire BCE, le PSC", "La politique étrangère commune uniquement", "Le seul PSC", "La politique culturelle"], answer: 0, explanation: "L'UE régule via : marché intérieur (4 libertés), politique de la concurrence, politique monétaire (zone euro), politique commerciale commune, normes harmonisées, PSC." },
+
+  // -- Régulation par le droit --
+  { theme: 2, tag: "Rôle du droit", q: "Le rôle du droit dans la régulation économique est de :", options: ["Aucun rôle réel", "Encadrer, sécuriser, sanctionner et orienter les comportements économiques", "Imposer une planification stricte", "Supprimer la concurrence"], answer: 1, explanation: "Le droit régule l'activité économique en fixant les règles du jeu (contrats, sociétés, concurrence, travail, consommation), sécurisant les transactions et sanctionnant les abus." },
+  { theme: 2, tag: "AAI", q: "Une autorité administrative indépendante (AAI) est :", options: ["Un service ministériel classique", "Un organisme public indépendant chargé de réguler un secteur sensible", "Une juridiction", "Une entreprise privée"], answer: 1, explanation: "Une AAI est une institution publique indépendante du pouvoir exécutif, chargée de réguler un secteur (concurrence, audiovisuel, données, finance). Elle dispose souvent de pouvoirs de sanction." },
+  { theme: 2, tag: "AAI", q: "Lequel est une AAI française ?", options: ["L'Autorité de la concurrence", "Le ministère de l'Économie", "Le Conseil constitutionnel", "Le Conseil d'État"], answer: 0, explanation: "AAI françaises : Autorité de la concurrence, AMF (marchés financiers), ARCEP (télécoms), CNIL (données), ARCOM (audiovisuel). Le ministère est gouvernemental ; le Conseil constitutionnel est une juridiction." },
+  { theme: 2, tag: "CNIL", q: "La CNIL a pour mission :", options: ["De fixer le SMIC", "De veiller à la protection des données personnelles", "De réguler la concurrence", "De fixer les taux d'intérêt"], answer: 1, explanation: "La Commission Nationale de l'Informatique et des Libertés (1978) veille au respect du RGPD et de la loi Informatique et Libertés sur la protection des données personnelles." },
+  { theme: 2, tag: "Droit de la concurrence", q: "Le droit de la concurrence vise à :", options: ["Empêcher toute concurrence", "Garantir le libre jeu de la concurrence sur les marchés", "Imposer un prix unique", "Favoriser les monopoles"], answer: 1, explanation: "Le droit de la concurrence (national et UE) vise à préserver le libre jeu concurrentiel, en interdisant ententes et abus de position dominante, et en contrôlant les concentrations." },
+  { theme: 2, tag: "Entente", q: "Une entente illicite consiste en :", options: ["Une coopération entre entreprises pour fausser la concurrence (prix, marchés, production)", "Une fusion légale", "Un partenariat technologique autorisé", "Une publicité commune"], answer: 0, explanation: "Articles 101 TFUE et L.420-1 C. com. : l'entente est un accord (formel ou tacite) entre entreprises ayant pour objet ou effet de restreindre la concurrence (cartels, partage de marché, prix imposés)." },
+  { theme: 2, tag: "Abus de position dominante", q: "L'abus de position dominante est :", options: ["Le simple fait de détenir une position dominante", "L'exploitation abusive d'une position dominante (prix prédateurs, refus de vente, ventes liées...)", "Une fusion entre concurrents", "Une innovation"], answer: 1, explanation: "Articles 102 TFUE et L.420-2 : la position dominante n'est pas interdite en soi, mais son exploitation abusive (prix prédateurs, discrimination, ventes liées) l'est." },
+  { theme: 2, tag: "Concentrations", q: "Le contrôle des concentrations vise à :", options: ["Empêcher toute fusion", "Prévenir la création de positions dominantes susceptibles d'entraver la concurrence", "Encourager les monopoles", "Faciliter les délocalisations"], answer: 1, explanation: "Au-delà de certains seuils (CA), les concentrations doivent être notifiées et autorisées. L'objectif est de préserver une concurrence effective sur les marchés." },
+  { theme: 2, tag: "Autorité de la concurrence", q: "L'Autorité de la concurrence française :", options: ["Est une juridiction du fond", "Est une AAI qui sanctionne les pratiques anticoncurrentielles et contrôle les concentrations", "Dépend du gouvernement", "Vote les lois économiques"], answer: 1, explanation: "L'Autorité de la concurrence est une AAI qui détecte et sanctionne ententes/abus, contrôle les concentrations et émet des avis sur la concurrence." },
+  { theme: 2, tag: "Propriété industrielle", q: "La propriété industrielle protège :", options: ["Les biens immobiliers", "Les créations techniques (brevets) et signes distinctifs (marques)", "Les seuls droits d'auteur", "Les terres agricoles"], answer: 1, explanation: "La propriété industrielle (branche de la propriété intellectuelle) protège : brevets (inventions), marques, dessins et modèles, indications géographiques." },
+  { theme: 2, tag: "Brevet", q: "Un brevet d'invention :", options: ["Confère un monopole d'exploitation pendant 20 ans à compter du dépôt", "Est gratuit et illimité", "Protège une marque", "Concerne le droit d'auteur"], answer: 0, explanation: "Le brevet confère un monopole d'exploitation pendant 20 ans (en France et UE), sous conditions de nouveauté, d'activité inventive et d'application industrielle." },
+  { theme: 2, tag: "Brevetabilité", q: "Les conditions de brevetabilité d'une invention sont :", options: ["Nouveauté, activité inventive, application industrielle", "Nouveauté seulement", "Coût élevé et utilité publique", "Approbation des concurrents"], answer: 0, explanation: "Pour être brevetable : nouveauté (non comprise dans l'état de la technique), activité inventive (non évidente pour l'homme du métier), application industrielle." },
+  { theme: 2, tag: "Marque", q: "Une marque protège :", options: ["Un signe distinctif identifiant des produits ou services", "Une invention technique", "Un secret de fabrication", "Une œuvre littéraire"], answer: 0, explanation: "La marque (déposée à l'INPI) est un signe (mot, logo, son, couleur) servant à distinguer les produits/services d'une entreprise. Protection : 10 ans renouvelables indéfiniment." },
+  { theme: 2, tag: "Marque", q: "La durée de protection d'une marque est :", options: ["5 ans non renouvelable", "10 ans renouvelable indéfiniment", "20 ans non renouvelable", "70 ans"], answer: 1, explanation: "Marque protégée 10 ans à compter du dépôt, renouvelable indéfiniment par périodes de 10 ans, sous condition d'exploitation effective." },
+  { theme: 2, tag: "INPI", q: "L'organisme français chargé du dépôt des brevets et marques est :", options: ["L'INSEE", "L'INPI (Institut National de la Propriété Industrielle)", "L'AFNOR", "L'URSSAF"], answer: 1, explanation: "L'INPI gère les dépôts de brevets, marques, dessins et modèles en France. L'OEB gère les brevets européens, l'EUIPO les marques de l'UE." },
+
+  // -- Macroenvironnement, innovation --
+  { theme: 2, tag: "PESTEL", q: "L'analyse PESTEL identifie six dimensions du macro-environnement, lesquelles ?", options: ["Politique, Économique, Socioculturelle, Technologique, Écologique, Légale", "Cinq forces concurrentielles", "Les ressources internes", "Les concurrents directs"], answer: 0, explanation: "PESTEL est un outil de diagnostic externe : Politique, Économique, Socioculturel, Technologique, Écologique (environnemental), Légal." },
+  { theme: 2, tag: "PESTEL", q: "Les facteurs technologiques de PESTEL incluent :", options: ["Le taux d'inflation", "L'innovation, la R&D, l'émergence de nouvelles technologies, l'obsolescence", "La législation du travail", "La culture nationale"], answer: 1, explanation: "Les facteurs technologiques (T) : R&D, innovations, technologies émergentes (IA, IoT, biotech), obsolescence, brevets, transferts de technologie." },
+  { theme: 2, tag: "PESTEL", q: "Les facteurs écologiques de PESTEL concernent :", options: ["Le taux de change", "Les enjeux climatiques, énergétiques, la biodiversité, la transition écologique", "Le code du travail", "La fiscalité"], answer: 1, explanation: "Les facteurs écologiques (E) : climat, énergie, biodiversité, économie circulaire, normes environnementales, attentes sociétales sur la durabilité." },
+  { theme: 2, tag: "Schumpeter innovation", q: "Selon Schumpeter, l'innovation est :", options: ["Une simple invention", "Le moteur de la « destruction créatrice » et de la croissance", "Un coût pour l'entreprise", "Sans impact sur l'économie"], answer: 1, explanation: "Schumpeter distingue invention (idée) et innovation (mise en marché). L'innovation est au cœur de la « destruction créatrice » qui régénère l'économie." },
+  { theme: 2, tag: "Schumpeter types", q: "Les types d'innovation selon Schumpeter sont :", options: ["Produit, procédé, organisation, débouché, matières premières", "Innovation publique et privée uniquement", "Innovation interne et externe", "Locale et globale"], answer: 0, explanation: "Schumpeter distingue 5 types : nouveau produit, nouveau procédé de production, nouveau débouché (marché), nouvelle source de matières premières, nouvelle organisation." },
+  { theme: 2, tag: "Innovation", q: "Une innovation incrémentale est :", options: ["Une rupture technologique majeure", "Une amélioration progressive d'un produit ou procédé existant", "Une copie d'un concurrent", "L'absence de R&D"], answer: 1, explanation: "L'innovation incrémentale améliore progressivement l'existant, à la différence de l'innovation de rupture (radicale) qui crée une nouvelle catégorie de produits/marchés." },
+  { theme: 2, tag: "Conjoncture", q: "La conjoncture économique désigne :", options: ["La situation économique à un moment donné", "Les structures économiques de long terme", "La politique de l'entreprise", "Le système juridique"], answer: 0, explanation: "La conjoncture est l'état de l'économie à court terme, mesuré par des indicateurs (PIB, inflation, chômage, IPC, climat des affaires). Elle s'oppose au structurel." },
+  { theme: 2, tag: "Stabilisation", q: "La fonction de stabilisation de l'État vise à :", options: ["Lutter contre les chocs économiques (récession, inflation, chômage)", "Allouer les ressources", "Réduire les inégalités", "Construire des infrastructures"], answer: 0, explanation: "La stabilisation (Musgrave) corrige les fluctuations économiques par les politiques conjoncturelles (budgétaire, monétaire) pour assurer croissance, plein-emploi, stabilité des prix." },
+  { theme: 2, tag: "Normes", q: "Une norme technique est :", options: ["Une obligation fiscale", "Un référentiel volontaire ou obligatoire de spécifications encadrant un produit ou processus", "Un contrat commercial", "Une convention collective"], answer: 1, explanation: "Les normes (AFNOR, ISO, CE) fixent des spécifications techniques pour produits, services, processus. Elles peuvent être volontaires (qualité) ou obligatoires (sécurité, environnement)." },
+  { theme: 2, tag: "Biens publics", q: "Les biens publics se caractérisent par :", options: ["La rivalité et l'exclusion", "La non-rivalité et la non-exclusion", "Un prix élevé", "Une production privée"], answer: 1, explanation: "Un bien public pur est non-rival (consommation par l'un n'empêche pas celle de l'autre) et non-excluable (impossible d'en exclure quelqu'un). Ex : éclairage public, défense." },
+];
+
+// ================ INIT QUIZ ================
+const container = document.getElementById('quiz-container');
+let userAnswers = {};
+let currentFilter = 'all';
+
+function renderQuiz() {
+    container.innerHTML = '';
+    const t1 = questions.filter(q => q.theme === 1);
+    const t2 = questions.filter(q => q.theme === 2);
+
+    if (currentFilter === 'all' || currentFilter === '1') {
+        const h = document.createElement('div');
+        h.className = 'theme-header';
+        h.innerHTML = '<div class="theme-num">Thème 01</div><div class="theme-title">L\'intégration de l\'entreprise dans son environnement</div>';
+        container.appendChild(h);
+        t1.forEach((q, i) => container.appendChild(buildCard(q, i + 1)));
+    }
+    if (currentFilter === 'all' || currentFilter === '2') {
+        const h = document.createElement('div');
+        h.className = 'theme-header';
+        h.innerHTML = '<div class="theme-num">Thème 02</div><div class="theme-title">La régulation de l\'activité économique</div>';
+        container.appendChild(h);
+        t2.forEach((q, i) => container.appendChild(buildCard(q, i + 1)));
+    }
+    updateStats();
+}
+
+function buildCard(q, num) {
+    const idx = questions.indexOf(q);
+    const card = document.createElement('div');
+    card.className = 'question';
+    card.dataset.idx = idx;
+
+    const meta = document.createElement('div');
+    meta.className = 'q-meta';
+    meta.innerHTML = `<span class="q-num">Question ${num}</span><span class="q-tag">${q.tag}</span>`;
+    card.appendChild(meta);
+
+    const text = document.createElement('div');
+    text.className = 'q-text';
+    text.textContent = q.q;
+    card.appendChild(text);
+
+    const opts = document.createElement('div');
+    opts.className = 'options';
+    const letters = ['A', 'B', 'C', 'D'];
+    q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option';
+        btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span class="option-text">${opt}</span>`;
+        btn.onclick = () => answerQuestion(idx, i, card);
+        opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+
+    const exp = document.createElement('div');
+    exp.className = 'explanation';
+    exp.innerHTML = `<strong>Explication</strong>${q.explanation}`;
+    card.appendChild(exp);
+
+    if (userAnswers[idx] !== undefined) {
+        applyAnswerVisual(card, idx, userAnswers[idx]);
+    }
+    return card;
+}
+
+function answerQuestion(idx, choice, card) {
+    if (userAnswers[idx] !== undefined) return;
+    userAnswers[idx] = choice;
+    applyAnswerVisual(card, idx, choice);
+    updateStats();
+}
+
+function applyAnswerVisual(card, idx, choice) {
+    const q = questions[idx];
+    const opts = card.querySelectorAll('.option');
+    opts.forEach((o, i) => {
+        o.disabled = true;
+        if (i === q.answer) o.classList.add('correct');
+        if (i === choice && i !== q.answer) o.classList.add('incorrect');
+    });
+    card.classList.add('answered');
+    card.classList.add(choice === q.answer ? 'correct' : 'incorrect');
+}
+
+function updateStats() {
+    const answered = Object.keys(userAnswers).length;
+    let correct = 0;
+    Object.entries(userAnswers).forEach(([idx, choice]) => {
+        if (questions[idx].answer === choice) correct++;
+    });
+    document.getElementById('answered').textContent = answered;
+    document.getElementById('correct-count').textContent = correct;
+    document.getElementById('incorrect-count').textContent = answered - correct;
+    document.getElementById('progress').style.width = (answered / 100 * 100) + '%';
+
+    const final = document.getElementById('final');
+    if (answered === 100) {
+        final.classList.add('show');
+        const pct = Math.round(correct / 100 * 100);
+        document.getElementById('final-score').textContent = `${correct} / 100 (${pct} %)`;
+        let comment = '';
+        if (pct >= 85) comment = "Excellent — niveau remarquable, prêt pour l'épreuve.";
+        else if (pct >= 70) comment = "Très bien — une bonne maîtrise du référentiel.";
+        else if (pct >= 50) comment = "Honorable — révisez les points manqués pour consolider.";
+        else comment = "À retravailler — reprenez les notions et explications point par point.";
+        document.getElementById('final-comment').textContent = comment;
+    } else {
+        final.classList.remove('show');
+    }
+}
+
+// ================ FILTRES & RESET ================
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        renderQuiz();
+    });
+});
+
+document.getElementById('reset').addEventListener('click', () => {
+    if (confirm('Réinitialiser toutes vos réponses ?')) {
+        userAnswers = {};
+        renderQuiz();
+    }
+});
+
+renderQuiz();
+</script>
+</body>
+</html>
